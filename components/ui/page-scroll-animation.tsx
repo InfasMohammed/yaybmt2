@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-/** Subtle one-time fade and 12px movement; no bounce, rotation or scroll scrubbing. */
+/** One-time soft reveal: fade, 12px rise, slight scale and de-blur, staggered; no bounce or scrubbing. */
 export default function PageScrollAnimation() {
   const pathname = usePathname();
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function PageScrollAnimation() {
       return;
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const cards =
-      ".card, .logo-cloud-shell, .logo-cloud-card, .company-value-card, .about-intro-card, .leadership-card, .directory > a, .showroom-expandable-photo, .gallery-photo, [data-page-reveal], .contact-intro-card, .contact-detail-card, .contact-panel";
+      ".card, .logo-cloud-shell, .logo-cloud-card, .company-value-card, .about-intro-lead, .about-intro-point, .page-hero-copy, .page-hero-aside, .product-panel, .product-cta, .leadership-card, .directory > a, .showroom-expandable-photo, .gallery-photo, [data-page-reveal], .contact-intro-card, .contact-detail-card, .contact-panel";
     const elements: HTMLElement[] = [];
     const tracked = new WeakSet<HTMLElement>();
     const candidates = () =>
@@ -54,12 +54,17 @@ export default function PageScrollAnimation() {
           element.dataset.pageDrop = "played";
           const animation = element.animate(
             [
-              { opacity: 0, translate: "0 12px" },
-              { opacity: 1, translate: "0 0" },
+              {
+                opacity: 0,
+                translate: "0 12px",
+                scale: "0.985",
+                filter: "blur(6px)",
+              },
+              { opacity: 1, translate: "0 0", scale: "1", filter: "blur(0)" },
             ],
             {
-              duration: 500,
-              delay: Math.min(index * 35, 90),
+              duration: 520,
+              delay: Math.min(index * 40, 120),
               fill: "both",
               easing: "cubic-bezier(0.22, 1, 0.36, 1)",
             },

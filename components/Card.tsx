@@ -4,7 +4,26 @@ import { brands } from "../data/brands";
 export function Placeholder() {
   return (
     <div className="placeholder">
-      <span aria-hidden="true">＋</span>
+      <span aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+          <rect
+            x="3"
+            y="5"
+            width="18"
+            height="14"
+            rx="2"
+            stroke="currentColor"
+            strokeWidth="1.3"
+          />
+          <circle cx="9" cy="10" r="1.6" stroke="currentColor" strokeWidth="1.3" />
+          <path
+            d="m4 17 5-4 4 3 3-2 4 3"
+            stroke="currentColor"
+            strokeWidth="1.3"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </span>
       <small>PRODUCT PHOTOGRAPH</small>
       <p>Awaiting original image</p>
     </div>
@@ -29,6 +48,9 @@ export default function Card({ product: p }: { product: CatalogueItem }) {
             <Placeholder />
           )}
           <BrandBadge brand={p.brand} />
+          <span className="card-quick" aria-hidden="true">
+            View details
+          </span>
         </div>
         <div className="card-name">
           <small>
@@ -38,7 +60,24 @@ export default function Card({ product: p }: { product: CatalogueItem }) {
           <p className="model">{p.model ? "Model · " + p.model : ""}</p>
         </div>
         <div className="card-bottom">
-          View product <span aria-hidden="true">+</span>
+          View product
+          <span className="card-arrow" aria-hidden="true">
+          <svg
+            aria-hidden="true"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M6 18 18 6M8 6h10v10"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          </span>
         </div>
       </a>
     </article>

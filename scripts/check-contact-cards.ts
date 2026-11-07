@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
-import { contactPage } from "../data/contact-page";
 
 async function main() {
   const browser = await chromium.launch({
@@ -24,46 +23,43 @@ async function main() {
         await page
           .locator("h1")
           .evaluate((el) => getComputedStyle(el).textAlign),
-        "center",
+        "start",
       );
       assert.equal(await page.locator(".contact-intro-card").count(), 1);
       assert.equal(
         await page
           .locator(".contact-intro-card > h2")
           .evaluate((el) => getComputedStyle(el).textAlign),
-        "center",
+        "left",
       );
       assert.equal(await page.locator(".contact-detail-card").count(), 4);
       assert.equal(await page.locator(".contact-panel").count(), 2);
+      assert.equal(await page.locator(".contact-map").count(), 0);
+      assert.equal(await page.locator("iframe").count(), 0);
       assert.equal(
-        await page.locator(".contact-map iframe").getAttribute("src"),
-        contactPage.mapEmbed,
+        await page.locator(".contact-video [data-video-card] video").count(),
+        1,
       );
-      const mapToggle = page.locator(".location-map-preview");
-      await mapToggle.focus();
-      await page.keyboard.press("Enter");
+      assert.equal(await page.locator("video[controls]").count(), 0);
       assert.equal(
-        await page.locator(".location-map-details").getAttribute("open"),
-        "",
+        await page
+          .locator(".contact-video video")
+          .evaluate((e) => (e as HTMLVideoElement).paused),
+        true,
+        "Reduced-motion video should stay paused",
       );
-      assert.ok(await page.locator(".location-map iframe").isVisible());
-      await page.keyboard.press("Enter");
-      assert.equal(
-        await page.locator(".location-map-details").getAttribute("open"),
-        null,
-      );
-      const map = await page.locator(".contact-map").boundingBox();
+      const map = await page.locator(".contact-video").boundingBox();
       const form = await page.locator(".contact-enquiry").boundingBox();
       assert.ok(map && form);
       if (width > 1000) assert.ok(form.width <= 481, "Desktop form is compact");
       if (width > 800) {
         assert.ok(
           Math.abs(map.y - form.y) < 2,
-          "Map and form share a desktop row",
+          "Video and form share a desktop row",
         );
         assert.ok(
           Math.abs(map.height - form.height) < 2,
-          "Map and form cards have equal heights",
+          "Video and form cards have equal heights",
         );
       } else assert.ok(form.y > map.y + map.height, "Mobile cards stack");
       assert.equal(
@@ -121,7 +117,7 @@ async function main() {
       await page.getByLabel("Full name").fill("");
       await page.getByLabel("Phone number", { exact: true }).fill("");
       await page
-        .locator(".contact-map")
+        .locator(".contact-video")
         .evaluate((el) => el.scrollIntoView({ block: "center" }));
       await page.waitForTimeout(1000);
       await page.evaluate(() => {
@@ -149,10 +145,12 @@ async function main() {
         .isVisible(),
     );
     assert.equal(await plain.locator(".contact-intro-card").isVisible(), true);
-    await plain.locator(".location-map-preview").click();
-    await plain.locator(".location-map iframe").waitFor({ state: "visible" });
+    assert.ok(
+      await plain.locator(".contact-video [data-video-card]").isVisible(),
+      "Video card is visible without JavaScript",
+    );
     console.log(
-      "PASS contact cards: four widths, equal desktop map/form row, mobile stack, no overflow/errors, source map/contacts, validated WhatsApp-only unsent draft and no-JS fallback.",
+      "PASS contact cards: four widths, equal desktop video/form row, mobile stack, no map, paused reduced-motion video, no overflow/errors, source contacts, validated WhatsApp-only unsent draft and no-JS fallback.",
     );
   } finally {
     await browser.close();

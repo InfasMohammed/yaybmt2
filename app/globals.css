@@ -13,10 +13,28 @@
   font-display: swap;
 }
 :root {
-  --ink: #252827;
-  --paper: #f7f6f2;
-  --copper: #a96340;
-  --line: #dcdcd5;
+  /* "Harbour & Brass" design tokens — see docs/design-system.md */
+  --ink: #0e1a22;
+  --ink-2: #16262f;
+  --canvas: #f5f4f0;
+  --paper: var(--canvas);
+  --surface: #ffffff;
+  --mist: #e9eef0;
+  --brass: #c7832a;
+  --brass-light: #e9b86b;
+  --copper: #9c5f18; /* accent text, AA on white and canvas */
+  --copper-dark: #7a4a10;
+  --muted: #5b646a;
+  --line: #e3e1da;
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --shadow-sm: 0 1px 2px rgba(14, 26, 34, 0.06);
+  --shadow: 0 1px 2px rgba(14, 26, 34, 0.05), 0 12px 32px -16px rgba(14, 26, 34, 0.18);
+  --shadow-lg: 0 2px 4px rgba(14, 26, 34, 0.05), 0 28px 60px -28px rgba(14, 26, 34, 0.35);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --container: 1328px;
+  --gutter: max(24px, calc((100vw - var(--container)) / 2 + 24px));
   --font-body: "Inter Variable", Arial, Helvetica, sans-serif;
   --font-heading: "Manrope Variable", Arial, Helvetica, sans-serif;
 }
@@ -102,40 +120,11 @@ body:has(.hero) header {
   background: transparent;
   z-index: 2;
 }
-.hero {
-  min-height: 780px;
-  color: white;
-  padding: 210px 8% 55px;
-  background:
-    linear-gradient(90deg, rgba(14, 23, 22, 0.87), rgba(14, 23, 22, 0.27)),
-    url("/images/hero-marine.webp") center/cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.hero h1 {
-  font-size: clamp(42px, 5.6vw, 82px);
-  line-height: 1.07;
-  letter-spacing: -3px;
-  margin: 25px 0;
-}
-.hero p:not(.eyebrow) {
-  max-width: 520px;
-  font-size: 18px;
-  color: #e2e3dc;
-}
-.hero > small {
-  margin-top: 65px;
-  color: #ddd;
-}
 .eyebrow {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2.6px;
   color: var(--copper);
-}
-.hero .eyebrow {
-  color: #e7b596;
 }
 em {
   font-family: var(--font-heading);
@@ -224,7 +213,7 @@ small,
 }
 .page-heading > p {
   max-width: 330px;
-  color: #656860;
+  color: #5b646a;
   margin-bottom: 30px;
 }
 .notice {
@@ -316,7 +305,7 @@ input[type="checkbox"] {
   gap: 22px;
 }
 .card {
-  border: 1px solid #e3d7cd;
+  border: 1px solid #e3e1da;
   background: #fff;
   display: flex;
   min-width: 0;
@@ -538,8 +527,7 @@ footer p {
   clip-path: inset(50%);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .page-heading,
-  .hero > div {
+  .page-heading {
     animation: appear 0.5s ease-out;
   }
   @keyframes appear {
@@ -592,17 +580,6 @@ footer p {
     justify-content: flex-end;
     font-size: 11px;
     max-width: 200px;
-  }
-  .hero {
-    padding: 200px 7% 35px;
-    min-height: 730px;
-    background-position: 62% center;
-  }
-  .hero h1 {
-    letter-spacing: -1.5px;
-  }
-  .hero p:not(.eyebrow) {
-    font-size: 16px;
   }
   .page {
     padding: 25px 6% 65px;
@@ -1119,7 +1096,7 @@ summary {
 }
 .nav-dropdown[open] > summary,
 .primary-navigation > a:hover {
-  color: #edc6aa;
+  color: #e9b86b;
 }
 .nav-dropdown-links {
   position: absolute;
@@ -1144,12 +1121,12 @@ summary {
 }
 .nav-dropdown-links .nav-view-all {
   border-bottom: 1px solid #ffffff33;
-  color: #edc6aa;
+  color: #e9b86b;
 }
 .nav-dropdown-links a:hover,
 .nav-dropdown-links a:focus-visible {
   background: #ffffff12;
-  color: #edc6aa;
+  color: #e9b86b;
 }
 @media (max-width: 650px) {
   header {
@@ -1176,9 +1153,6 @@ summary {
     right: 0;
     width: auto;
     max-height: 60svh;
-  }
-  .home-page .hero {
-    padding-top: 250px;
   }
 }
 
@@ -1228,7 +1202,7 @@ summary {
   margin-left: auto;
 }
 .industries-subtitle {
-  color: #656860;
+  color: #5b646a;
   margin-bottom: 28px;
 }
 .industry-grid {
@@ -1318,7 +1292,7 @@ summary {
 }
 .team-card p {
   margin: 0;
-  color: #656860;
+  color: #5b646a;
 }
 .company-figures {
   padding: 36px;
@@ -1343,7 +1317,7 @@ summary {
 }
 .company-figures dd {
   font-size: 38px;
-  color: #e7b08b;
+  color: #e9b86b;
 }
 .showroom-grid {
   display: grid;
@@ -1566,21 +1540,6 @@ summary {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .home-page .hero > div {
-    animation: none;
-  }
-  .home-page .hero > div > * {
-    animation: none;
-  }
-  .home-page .hero h1 {
-    animation-delay: 0.08s;
-  }
-  .home-page .hero h1 + p {
-    animation-delay: 0.16s;
-  }
-  .home-page .hero .button {
-    animation-delay: 0.24s;
-  }
   .home-page .industry-image img,
   .home-page .brand-logo-frame img {
     transition: transform 0.4s ease;
@@ -1615,14 +1574,6 @@ summary {
   }
 }
 
-.welcome-section {
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  gap: clamp(28px, 4vw, 64px);
-  padding-top: 70px;
-  padding-bottom: 70px;
-  align-items: start;
-}
 .welcome-media {
   min-width: 0;
   padding: 12px;
@@ -1653,7 +1604,7 @@ summary {
 }
 .welcome-copy > p:not(.eyebrow),
 .company-values-panels p {
-  color: #565c57;
+  color: #5b646a;
   line-height: 1.75;
 }
 .company-values-panels {
@@ -1669,13 +1620,6 @@ summary {
 .company-values-panels details[open] summary {
   color: var(--copper);
 }
-@media (max-width: 800px) {
-  .welcome-section {
-    grid-template-columns: 1fr;
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-}
 
 @media (min-width: 801px) and (min-height: 600px) {
   .welcome-media {
@@ -1690,7 +1634,7 @@ summary {
   border-top: 3px solid var(--copper);
   padding: clamp(22px, 3vw, 36px);
   border-radius: 6px;
-  box-shadow: 0 8px 28px #25282708;
+  box-shadow: 0 8px 28px #0e1a2208;
 }
 .contact-enquiry > .eyebrow {
   margin: 0 0 12px;
@@ -1701,7 +1645,7 @@ summary {
   margin-bottom: 12px;
 }
 .contact-enquiry > p:not(.eyebrow):not(.enquiry-help) {
-  color: #656860;
+  color: #5b646a;
   margin: 0 0 24px;
 }
 .contact-enquiry-form label {
@@ -1741,7 +1685,7 @@ summary {
 .enquiry-help {
   font-size: 12px;
   line-height: 1.6;
-  color: #656860;
+  color: #5b646a;
   margin: 16px 0 0;
 }
 .enquiry-draft {
@@ -1755,7 +1699,7 @@ summary {
 .enquiry-draft small {
   display: block;
   margin-top: 12px;
-  color: #656860;
+  color: #5b646a;
 }
 
 .category-directory > a {
@@ -1889,7 +1833,7 @@ summary {
 }
 .active-brand > span {
   font-size: 12px;
-  color: #656860;
+  color: #5b646a;
 }
 .active-brand strong {
   font-size: 16px;
@@ -2049,7 +1993,7 @@ summary {
     color: white;
   }
   .mobile-menu-heading button:hover {
-    color: #edc6aa;
+    color: #e9b86b;
   }
   .mobile-menu-panel > a {
     justify-content: space-between;
@@ -2060,7 +2004,7 @@ summary {
     color: white;
   }
   .mobile-menu-panel > .mobile-view-all {
-    color: #edc6aa;
+    color: #e9b86b;
     border-bottom: 1px solid #ffffff26;
   }
 }
@@ -2122,7 +2066,7 @@ summary {
   }
   .mobile-menu-items > a:hover,
   .mobile-menu-items > a:focus-visible {
-    color: #edc6aa;
+    color: #e9b86b;
   }
   .mobile-navigation[open]:not([data-enhanced]) > summary {
     position: relative;
@@ -2214,7 +2158,7 @@ footer .powered-by {
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: #626760;
+  color: #5b646a;
   font-family: var(--font-body);
   font-size: 12px;
   font-weight: 400;

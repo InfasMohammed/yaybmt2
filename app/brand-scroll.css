@@ -1,77 +1,126 @@
+/* Logo cloud marquee: faded edges, grayscale logos that colour on hover, pause on hover/focus. */
 .brand-scroll {
   position: relative;
-  overflow: clip;
-  padding: 4px 0;
+  overflow: hidden;
+  padding: 6px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.brand-marquee-track {
+  display: flex;
+  width: max-content;
 }
 .brand-scroll-grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 16px;
-  perspective: 500px;
+  display: flex;
+  flex-shrink: 0;
+  gap: 14px;
+  padding-right: 14px;
 }
 .brand-scroll-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  text-align: center;
-  font-size: 0.75rem;
-  font-weight: 600;
+  gap: 4px;
   min-width: 0;
-  border-radius: 8px;
-  padding: 4px;
-}
-.brand-scroll-image {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 64px;
-}
-.brand-scroll-image img {
-  width: 100%;
-  max-width: 120px;
-  height: 56px;
-  object-fit: contain;
-  pointer-events: none;
-}
-.brand-scroll-card .distributor-note {
-  font-size: 13px;
-  line-height: 1.5;
-}
-.brand-scroll-card:focus-visible {
-  outline: 2px solid var(--copper, #8c4d2d);
-  outline-offset: 2px;
-}
-.brand-scroll-card:focus-visible img {
-  transform: none !important;
-}
-@media (max-width: 900px) {
-  .brand-scroll-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-@media (max-width: 540px) {
-  .brand-scroll-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px 8px;
-  }
-  .brand-scroll {
-    padding-top: 0;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .brand-scroll-image img {
-    transform: none !important;
-  }
+  text-align: center;
 }
 .brand-scroll-link {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  width: 150px;
+  padding: 14px 12px 12px;
+  border: 1px solid #e9e7e0;
+  border-radius: 20px;
+  background: #fff;
+  color: #0e1a22;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.brand-scroll-link:hover {
+  border-color: rgba(199, 131, 42, 0.5);
+  box-shadow: 0 18px 36px -24px rgba(14, 26, 34, 0.45);
+  text-decoration: none;
+  transform: translateY(-3px);
+}
+.brand-scroll-image {
+  display: grid;
+  place-items: center;
   width: 100%;
+  height: 52px;
+}
+.brand-scroll-image img {
+  width: 100%;
+  max-width: 112px;
+  height: 48px;
+  object-fit: contain;
+  pointer-events: none;
+  filter: grayscale(1) contrast(1.05);
+  opacity: 0.75;
+  transition:
+    filter 0.4s ease,
+    opacity 0.4s ease;
+}
+.brand-scroll-link:hover img,
+.brand-scroll-link:focus-visible img {
+  filter: none;
+  opacity: 1;
+}
+.brand-scroll-name {
+  letter-spacing: 0.02em;
+}
+.brand-scroll-card .distributor-note {
+  max-width: 150px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #5b646a;
 }
 .brand-scroll-link:focus-visible {
-  outline: 2px solid #8c4d2d;
+  outline: 2px solid #7a4a10;
   outline-offset: 3px;
+}
+
+/* Static fallback (no JS / reduced motion): a wrapping row without the duplicate set. */
+.brand-scroll[data-motion="static"] {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.brand-scroll[data-motion="static"] .brand-marquee-track {
+  width: auto;
+}
+.brand-scroll[data-motion="static"] .brand-scroll-grid {
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-shrink: 1;
+  padding-right: 0;
+}
+.brand-scroll[data-motion="static"] .brand-marquee-copy {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .brand-scroll[data-motion="marquee"] .brand-marquee-track {
+    animation: brand-marquee 38s linear infinite;
+  }
+  .brand-scroll[data-motion="marquee"]:hover .brand-marquee-track,
+  .brand-scroll[data-motion="marquee"]:focus-within .brand-marquee-track {
+    animation-play-state: paused;
+  }
+  @keyframes brand-marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+@media (max-width: 540px) {
+  .brand-scroll-link {
+    width: 124px;
+    padding: 12px 10px 10px;
+  }
 }

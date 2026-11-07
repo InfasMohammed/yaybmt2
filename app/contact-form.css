@@ -38,7 +38,7 @@
 }
 .contact-page .contact-form-modern .contact-enquiry-form label {
   gap: 10px;
-  color: #626760;
+  color: #5b646a;
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 600;
@@ -50,7 +50,7 @@
   border-radius: 12px;
   padding: 13px 15px;
   background: #f7f7f4;
-  color: #252827;
+  color: #0e1a22;
   font-size: 14px;
   letter-spacing: normal;
   text-transform: none;
@@ -71,8 +71,8 @@
   .contact-form-modern
   .contact-enquiry-form
   :is(input, textarea):focus-visible {
-  border-color: #a96340;
-  outline: 2px solid #a9634033;
+  border-color: #9c5f18;
+  outline: 2px solid #9c5f1833;
   outline-offset: 1px;
   background: #fff;
 }
@@ -81,10 +81,17 @@
   width: fit-content;
   min-height: 46px;
   padding: 12px 18px;
-  border-radius: 12px;
+  padding: 12px 22px;
+  border-color: #1f8f5f;
+  border-radius: 999px;
   gap: 12px;
-  background: #252827;
-  font-size: 13px;
+  background: #1f8f5f;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: 0 12px 30px -14px rgba(31, 143, 95, 0.7);
+}
+.contact-page .contact-form-modern .contact-enquiry-form button img {
+  filter: brightness(0) invert(1);
 }
 .contact-page .contact-form-modern .contact-enquiry-form button img,
 .contact-page .contact-form-modern .contact-enquiry-form button > svg {
@@ -92,7 +99,7 @@
   margin: 0;
 }
 .contact-page .contact-form-modern .contact-enquiry-form button > svg {
-  color: #e6b996;
+  color: #fff;
 }
 .contact-page .contact-form-modern .enquiry-help {
   font-size: 11px;
@@ -102,7 +109,9 @@
 }
 @media (hover: hover) {
   .contact-page .contact-form-modern .contact-enquiry-form button:hover {
-    background: #393d39;
+    border-color: #177a50;
+    background: #177a50;
+    color: #fff;
   }
 }
 @media (prefers-reduced-motion: no-preference) {

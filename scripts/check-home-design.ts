@@ -5,7 +5,6 @@ import { chromium } from "playwright";
 import { brands } from "../data/brands";
 import { categories } from "../data/categories";
 import { categoryImages } from "../data/category-images";
-import { welcome } from "../data/welcome";
 const base = process.env.YAYBMT_TEST_URL || "http://127.0.0.1:8080";
 const output =
   process.env.YAYBMT_HOME_SCREENSHOTS || "artifacts/tailwind-homepage";
@@ -44,7 +43,7 @@ async function main() {
       assert.equal(await page.locator("h1").count(), 1);
       assert.equal(
         await page.locator("h1").innerText(),
-        "Strong foundations.\nLasting connections.",
+        "Welcome to Yusuf Al Yousfi Building Materials Trading LLC",
       );
       assert.ok(
         await page.evaluate(
@@ -70,18 +69,12 @@ async function main() {
       });
       assert.equal(
         await cta.evaluate((e) => getComputedStyle(e).backgroundColor),
-        "rgb(169, 99, 64)",
+        "rgb(199, 131, 42)",
         "Tailwind utilities missing",
       );
-      assert.equal(
-        await page
-          .locator("video")
-          .evaluate((e) => (e as HTMLVideoElement).paused),
-        true,
-        "Reduced-motion video should stay paused",
-      );
-      assert.equal(await page.locator("video[controls]").count(), 0);
-      assert.equal(await page.locator("[data-video-card] video").count(), 1);
+      // The company video and welcome copy now live on the contact page.
+      assert.equal(await page.locator("video").count(), 0);
+      assert.equal(await page.locator(".welcome-section").count(), 0);
       assert.equal(
         await page.locator("[data-industry-grid] article").count(),
         3,
@@ -107,7 +100,7 @@ async function main() {
         await page
           .locator("footer")
           .evaluate((e) => getComputedStyle(e).backgroundColor),
-        "rgb(37, 40, 39)",
+        "rgb(14, 26, 34)",
       );
       assert.equal(
         await page.locator("footer .logo").getAttribute("src"),
@@ -138,8 +131,6 @@ async function main() {
             .count(),
           1,
         );
-      for (const p of welcome.paragraphs)
-        assert.ok(await page.getByText(p, { exact: true }).isVisible());
       if (width <= 650) {
         const menu = page.locator(".mobile-navigation");
         const toggle = menu.locator(":scope > summary");
@@ -247,61 +238,57 @@ async function main() {
     await motionPage.waitForLoadState("networkidle");
     const brandAssembly = motionPage.locator(".brand-scroll");
     const firstLogo = brandAssembly.locator("img").first();
-    assert.equal(await brandAssembly.getAttribute("data-motion"), "static");
+    assert.equal(await brandAssembly.getAttribute("data-motion"), "marquee");
     assert.equal(
       await firstLogo.evaluate((el) => getComputedStyle(el).transform),
       "none",
     );
-    assert.equal(await brandAssembly.locator("a").count(), 7);
-    assert.equal(await brandAssembly.locator("button").count(), 0);
-    const industrySection = motionPage.locator(".industry-scroll");
-    await motionPage.waitForFunction(
-      () =>
-        document
-          .querySelector(".industry-scroll")
-          ?.getAttribute("data-scroll-enhanced") === "true",
-    );
-    for (const [progress, expected] of [
-      [0.05, "Marine"],
-      [0.5, "Engineering & Fabrication"],
-      [0.95, "Construction"],
-    ] as const) {
-      await industrySection.evaluate((el, progress) => {
-        const top = el.getBoundingClientRect().top + scrollY;
-        scrollTo(
-          0,
-          top + (el.getBoundingClientRect().height - innerHeight) * progress,
-        );
-      }, progress);
-      await motionPage.waitForFunction(
-        (expected) =>
-          document.querySelector('.industry-scroll-step[data-active="true"] h3')
-            ?.textContent === expected,
-        expected,
-      );
-      const pinned = await industrySection
-        .locator(".industry-scroll-frame")
-        .boundingBox();
-      assert.ok(
-        pinned && Math.abs(pinned.y - 20) < 2,
-        "Industry content stays pinned in a short laptop viewport",
-      );
-    }
-    await motionPage.emulateMedia({ reducedMotion: "reduce" });
-    await motionPage.waitForFunction(
-      () =>
-        document
-          .querySelector(".industry-scroll")
-          ?.getAttribute("data-scroll-enhanced") === "false",
+    assert.equal(
+      await brandAssembly
+        .locator(".brand-scroll-grid:not(.brand-marquee-copy) a")
+        .count(),
+      7,
     );
     assert.equal(
-      await industrySection
-        .locator("img")
-        .evaluateAll((images) =>
-          images.every((image) => getComputedStyle(image).opacity === "1"),
-        ),
-      true,
+      await brandAssembly.locator(".brand-marquee-copy").getAttribute("aria-hidden"),
+      "true",
     );
+    assert.equal(await brandAssembly.locator("button").count(), 0);
+    // Industries: compact dark band — intro beside three slim rows with small 3:2 thumbnails.
+    const industrySection = motionPage.locator(".home-industries");
+    assert.equal(
+      await industrySection.evaluate((el) => getComputedStyle(el).backgroundColor),
+      "rgb(14, 26, 34)",
+    );
+    for (const slug of ["marine", "engineering-fabrication", "construction"])
+      assert.equal(
+        await motionPage.locator("article#industry-" + slug).count(),
+        1,
+      );
+    const intro = await industrySection
+      .locator(".home-industries-intro")
+      .boundingBox();
+    const industryList = await industrySection
+      .locator(".industry-list")
+      .boundingBox();
+    assert.ok(
+      intro && industryList && industryList.x > intro.x + intro.width - 1,
+      "Industry rows sit beside the intro on desktop",
+    );
+    const sectionBox = await industrySection.boundingBox();
+    assert.ok(
+      sectionBox && sectionBox.height < 760,
+      "Industries section is compact (no tall scroll-pinned layout)",
+    );
+    assert.ok(
+      await industrySection
+        .locator(".industry-row img")
+        .evaluateAll((images) =>
+          images.every((img) => img.getBoundingClientRect().width <= 200),
+        ),
+      "Industry thumbnails are small",
+    );
+    await motionPage.emulateMedia({ reducedMotion: "reduce" });
     await motionPage.waitForFunction(
       () =>
         document.querySelector(".brand-scroll")?.getAttribute("data-motion") ===
@@ -385,20 +372,17 @@ async function main() {
       await page
         .locator("footer")
         .evaluate((e) => getComputedStyle(e).backgroundColor),
-      "rgb(37, 40, 39)",
+      "rgb(14, 26, 34)",
     );
     await page.goBack();
-    await page.getByRole("link", { name: "Discover our company" }).click();
-    assert.ok(page.url().endsWith("/about-us/"));
-    await page.goBack();
-    await page.getByRole("link", { name: "Make an enquiry" }).click();
+    // The bottom enquiry band was removed; enquiries go via the footer CTA and floating WhatsApp.
+    assert.equal(await page.locator("#home-enquiry-heading").count(), 0);
+    await page.getByRole("link", { name: "Start an enquiry" }).click();
     assert.ok(page.url().endsWith("/contact-us/"));
     await page.goBack();
     assert.match(
-      (await page
-        .getByRole("link", { name: "WhatsApp our team" })
-        .getAttribute("href"))!,
-      /^https:\/\/wa.me\/971567369803\?text=/,
+      (await page.locator("a.floating").getAttribute("href"))!,
+      /^https:\/\/wa.me\/971567369803/,
     );
     console.log(
       "PASS Tailwind homepage: compiled styles, five responsive widths, original copy and URL links, overlay header, local images, reduced motion, no-JS navigation and enquiries.",

@@ -1,5 +1,5 @@
 import { LogoCloud } from "../../components/ui/logo-cloud";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import PageHero from "../../components/PageHero";
 import { metadata as meta } from "../../lib/site";
 export const metadata = meta(
   "Browse brands",
@@ -9,14 +9,18 @@ export const metadata = meta(
 export default function Page() {
   return (
     <main id="main" className="page">
-      <Breadcrumbs
-        items={[
+      <PageHero
+        crumbs={[
           { name: "Home", path: "/" },
           { name: "Brands", path: "/brands/" },
         ]}
-      />
-      <p className="eyebrow">EXPLORE THE CATALOGUE</p>
-      <h1>Browse by brand.</h1>
+        eyebrow="EXPLORE THE CATALOGUE"
+        title="Browse by brand."
+      >
+        <p className="page-hero-lead">
+          Trusted manufacturers across marine, sanitary and building ranges.
+        </p>
+      </PageHero>
       <LogoCloud />
     </main>
   );

@@ -65,7 +65,7 @@ export const testimonials: Testimonial[] = [
 ];
 
 export function visibleTestimonials(production: boolean) {
-  return testimonials
-    .filter((item) => !production || item.status !== "sample")
-    .slice(0, 3);
+  return testimonials.filter(
+    (item) => !production || item.status !== "sample",
+  );
 }

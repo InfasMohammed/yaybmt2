@@ -66,7 +66,8 @@ async function main() {
         .getByRole("link", { name: "All brands", exact: true })
         .isVisible(),
     );
-    await page.locator("h1").click();
+    // Outside click: the centred hero headline's left edge is clear of the open dropdown.
+    await page.locator("h1").click({ position: { x: 8, y: 8 } });
     assert.equal(await brands.locator("..").getAttribute("open"), null);
     await page.emulateMedia({ reducedMotion: "reduce" });
     assert.equal(

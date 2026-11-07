@@ -1,4 +1,4 @@
-import Breadcrumbs from "./Breadcrumbs";
+import PageHero from "./PageHero";
 import { pagePath } from "../lib/pagination";
 import type { Taxonomy } from "../data/types";
 import { catalogueItem } from "../lib/catalogue-data";
@@ -29,8 +29,8 @@ export default function ArchivePage({
       : [];
   return (
     <main id="main" className="page">
-      <Breadcrumbs
-        items={[
+      <PageHero
+        crumbs={[
           { name: "Home", path: "/" },
           {
             name: kind === "brand" ? "Brands" : "Categories",
@@ -46,12 +46,19 @@ export default function ArchivePage({
             ),
           },
         ]}
-      />
-      <p className="eyebrow">{kind === "brand" ? "BRAND" : "PRODUCT RANGE"}</p>
-      <h1>{term.name}</h1>
-      {kind === "brand" && term.distributorNote && (
-        <p className="distributor-note">{term.distributorNote}</p>
-      )}
+        eyebrow={kind === "brand" ? "BRAND" : "PRODUCT RANGE"}
+        title={term.name}
+        aside={
+          <p className="page-hero-stat">
+            <strong>{items.length}</strong>
+            {items.length === 1 ? " product" : " products"}
+          </p>
+        }
+      >
+        {kind === "brand" && term.distributorNote && (
+          <p className="distributor-note">{term.distributorNote}</p>
+        )}
+      </PageHero>
       {items.length ? (
         <>
           <Catalogue
@@ -91,7 +98,7 @@ export default function ArchivePage({
             {children.map((c) => (
               <a href={"/product-category/" + c.slug + "/"} key={c.slug}>
                 {c.name}
-                <span aria-hidden="true">+</span>
+                <span aria-hidden="true">→</span>
               </a>
             ))}
           </div>

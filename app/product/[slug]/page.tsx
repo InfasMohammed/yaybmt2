@@ -91,7 +91,7 @@ export default async function Product({
       />
       <div className="product-layout">
         <Gallery product={p} />
-        <section>
+        <section className="product-info">
           <p className="eyebrow">
             {brand?.name || "YAYBMT CATALOGUE"} /{" "}
             {p.status === "sample" ? "PRODUCT SAMPLE" : "PRODUCT INFORMATION"}
@@ -110,16 +110,23 @@ export default async function Product({
               directly with our team in Deira, Dubai.
             </p>
           )}
-          <a
-            className="button"
-            href={whatsapp(p.model ? p.name + " (" + p.model + ")" : p.name)}
-          >
-            Enquire on WhatsApp +
-          </a>
-          <p className="muted">
-            Confirm specifications, pricing and availability with our team.
-          </p>
-          <details open>
+          <div className="product-cta">
+            <a
+              className="button button-whatsapp"
+              href={whatsapp(p.model ? p.name + " (" + p.model + ")" : p.name)}
+            >
+              <img src="/images/icons/whatsapp.svg" alt="" width="20" height="20" />
+              Enquire on WhatsApp
+            </a>
+            <a className="button outline" href="/contact-us/">
+              Request a quote
+            </a>
+          </div>
+          <ul className="product-assurances">
+            <li>Confirm specifications, pricing and availability with our team.</li>
+            <li>Showroom in Deira, Dubai · Serving customers since 2004.</li>
+          </ul>
+          <details open className="product-panel">
             <summary>Product information</summary>
             <dl>
               <dt>Brand</dt>
@@ -150,7 +157,7 @@ export default async function Product({
               </p>
             )}
           </details>
-          <details open>
+          <details open className="product-panel">
             <summary>Specifications</summary>
             {p.specifications.length ? (
               <dl>
@@ -170,7 +177,7 @@ export default async function Product({
           </details>
           <ProductDocuments product={p} />
           {p.bodyHtml && (
-            <details>
+            <details className="product-panel">
               <summary>Original product details</summary>
               <ContentBody
                 html={

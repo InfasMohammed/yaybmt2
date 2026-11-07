@@ -1,4 +1,4 @@
-import Breadcrumbs from "../../components/Breadcrumbs";
+import PageHero from "../../components/PageHero";
 import { categories } from "../../data/categories";
 import { metadata as meta } from "../../lib/site";
 export const metadata = meta(
@@ -10,18 +10,19 @@ export default function Page() {
   const roots = categories.filter((c) => !c.slug.includes("/"));
   return (
     <main id="main" className="page">
-      <Breadcrumbs
-        items={[
+      <PageHero
+        crumbs={[
           { name: "Home", path: "/" },
           { name: "Categories", path: "/categories/" },
         ]}
-      />
-      <p className="eyebrow">EXPLORE THE CATALOGUE</p>
-      <h1>Browse by range.</h1>
-      <p className="notice">
-        Original category names, nested URLs and product assignments are
-        preserved from the supplied catalogue.
-      </p>
+        eyebrow="EXPLORE THE CATALOGUE"
+        title="Browse by range."
+      >
+        <p className="page-hero-lead">
+          Every product range in the catalogue, from marine fittings to pipes,
+          fasteners and tools.
+        </p>
+      </PageHero>
       {roots.map((root) => (
         <section className="category-group" key={root.slug}>
           <h2>
@@ -33,7 +34,7 @@ export default function Page() {
               .map((c) => (
                 <a href={"/product-category/" + c.slug + "/"} key={c.slug}>
                   {c.name}
-                  <span aria-hidden="true">+</span>
+                  <span aria-hidden="true">→</span>
                 </a>
               ))}
           </div>

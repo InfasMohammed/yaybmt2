@@ -4,6 +4,7 @@ import SiteFooter from "../components/SiteFooter";
 import PageScrollAnimation from "../components/ui/page-scroll-animation";
 import HeaderMenu from "../components/HeaderMenu";
 import "./globals.css";
+import "./modern.css";
 import { origin } from "../lib/site";
 import { whatsapp } from "../lib/site";
 import { contacts } from "../data/contacts";
@@ -79,6 +80,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               .map(({ slug, name }) => ({ slug, name }))}
             brands={brands.map(({ slug, name }) => ({ slug, name }))}
           />
+          <a className="header-cta" href="/contact-us/">
+            Enquire now
+          </a>
         </header>
         <PageScrollAnimation />
         {children}
@@ -89,6 +93,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           aria-label="Enquire on WhatsApp"
         >
           <img src="/images/icons/whatsapp.svg" alt="" />
+          <span className="floating-label" aria-hidden="true">
+            WhatsApp us
+          </span>
         </a>
       </body>
     </html>

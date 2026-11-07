@@ -22,6 +22,20 @@ const footerCategories = categorySlugs.map((slug) =>
 export default function SiteFooter() {
   return (
     <footer id="contact" className="site-footer">
+      <section className="footer-cta" aria-labelledby="footer-cta-heading">
+        <div>
+          <p className="footer-cta-eyebrow">Product lists · Model numbers · Projects</p>
+          <h2 id="footer-cta-heading">Have a requirement? Let’s talk.</h2>
+        </div>
+        <div className="footer-cta-actions">
+          <a className="button" href="/contact-us/">
+            Start an enquiry
+          </a>
+          <a className="footer-cta-secondary" href="/shop/">
+            Browse the catalogue
+          </a>
+        </div>
+      </section>
       <div className="footer-top">
         <a href="/" aria-label="YAYBMT home">
           <img

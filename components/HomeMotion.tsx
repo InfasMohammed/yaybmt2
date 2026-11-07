@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-/** Subtle one-time homepage reveals, with progressive/no-motion fallbacks. */
+/** One-time homepage reveals (fade, 12px rise, scale, de-blur, staggered) with no-motion fallbacks. */
 export default function HomeMotion() {
   useEffect(() => {
     if (
@@ -40,14 +40,31 @@ export default function HomeMotion() {
           }
           played.add(element);
           element.dataset.homeDrop = "played";
+          // Header, footer and above-the-fold hero get a plain fade-rise; blur is for content below.
+          const chrome = !!element.closest("header, footer, .hero");
           const animation = element.animate(
-            [
-              { opacity: 0, translate: "0 12px" },
-              { opacity: 1, translate: "0 0" },
-            ],
+            chrome
+              ? [
+                  { opacity: 0, translate: "0 12px" },
+                  { opacity: 1, translate: "0 0" },
+                ]
+              : [
+                  {
+                    opacity: 0,
+                    translate: "0 12px",
+                    scale: "0.98",
+                    filter: "blur(8px)",
+                  },
+                  {
+                    opacity: 1,
+                    translate: "0 0",
+                    scale: "1",
+                    filter: "blur(0)",
+                  },
+                ],
             {
-              duration: 500,
-              delay: Math.min(index * 35, 90),
+              duration: 620,
+              delay: Math.min(index * 70, 280),
               fill: "both",
               easing: "cubic-bezier(0.22, 1, 0.36, 1)",
             },

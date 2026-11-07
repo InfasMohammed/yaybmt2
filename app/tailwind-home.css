@@ -5,13 +5,14 @@
 @source "./page.tsx";
 
 @theme {
-  --color-ink: #252827;
-  --color-paper: #f7f6f2;
-  --color-copper: #a96340;
-  --color-copper-dark: #8c4d2d;
-  --color-copper-light: #e6b996;
-  --color-muted: #626760;
-  --color-sand: #eae5db;
+  --color-ink: #0e1a22;
+  --color-paper: #f5f4f0;
+  --color-copper: #c7832a;
+  --color-copper-dark: #7a4a10;
+  --color-copper-light: #e9b86b;
+  --color-mist: #e9eef0;
+  --color-muted: #5b646a;
+  --color-sand: #e9eef0;
   --font-sans: "Inter Variable", Arial, Helvetica, sans-serif;
 }
 
@@ -23,7 +24,7 @@ body:has(.tailwind-home) header {
   overflow: clip;
 }
 .tailwind-home a:focus-visible {
-  outline: 3px solid #a96340;
+  outline: 3px solid #9c5f18;
   outline-offset: 5px;
 }
 @media (max-width: 650px) {
@@ -37,38 +38,3 @@ body:has(.tailwind-home) header {
   }
 }
 
-/* Editorial welcome card: a quiet copper accent and a clear reading surface. */
-.welcome-story-card {
-  position: relative;
-  isolation: isolate;
-  padding: clamp(26px, 3vw, 44px);
-  border: 1px solid #ded9d0;
-  border-radius: 24px 24px 6px 24px;
-  background: linear-gradient(145deg, #fff 65%, #f7f1e8);
-  box-shadow: 0 20px 50px -36px #25282755;
-}
-.welcome-story-card::before {
-  content: "";
-  position: absolute;
-  left: -1px;
-  top: 38px;
-  width: 3px;
-  height: 70px;
-  border-radius: 0 3px 3px 0;
-  background: #a96340;
-}
-.welcome-story-eyebrow {
-  max-width: 36ch;
-}
-.welcome-story-link {
-  display: flex;
-  justify-content: space-between;
-  border-top: 1px solid #ded9d0;
-  padding-top: 22px;
-  width: 100%;
-}
-@media (max-width: 650px) {
-  .welcome-story-card {
-    border-radius: 18px 18px 5px 18px;
-  }
-}

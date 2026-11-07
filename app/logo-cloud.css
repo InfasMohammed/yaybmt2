@@ -6,9 +6,9 @@
   padding: 8px;
   border: 1px solid #dcd8cf;
   border-radius: 24px;
-  background: linear-gradient(#eeeae380, #f7f6f2, #eeeae340);
+  background: linear-gradient(#eeeae380, #f5f4f0, #eeeae340);
   overflow: hidden;
-  box-shadow: 0 16px 48px -36px #25282766;
+  box-shadow: 0 16px 48px -36px #0e1a2266;
 }
 .logo-cloud::before {
   content: "";
@@ -18,8 +18,8 @@
   pointer-events: none;
   opacity: 0.15;
   background-image:
-    linear-gradient(#a9634060 1px, transparent 1px),
-    linear-gradient(90deg, #a9634060 1px, transparent 1px);
+    linear-gradient(#9c5f1860 1px, transparent 1px),
+    linear-gradient(90deg, #9c5f1860 1px, transparent 1px);
   background-size: 40px 40px;
 }
 .logo-cloud::after {
@@ -31,7 +31,7 @@
   opacity: var(--glow-opacity, 0);
   background: radial-gradient(
     500px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
-    #a963401a,
+    #9c5f181a,
     transparent 75%
   );
 }
@@ -70,13 +70,13 @@
   opacity: var(--glow-opacity, 0);
   background: radial-gradient(
     180px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
-    #a963402e,
+    #9c5f182e,
     transparent 85%
   );
 }
 .logo-cloud-index {
   align-self: flex-start;
-  color: #626760;
+  color: #5b646a;
   font-size: 10px;
   letter-spacing: 0.1em;
 }
@@ -123,14 +123,14 @@
   justify-content: space-between;
   gap: 12px;
   width: 100%;
-  color: #8c4d2d;
+  color: #7a4a10;
   font-size: 12px;
 }
 .logo-cloud-corner {
   position: absolute;
   right: 6px;
   top: 8px;
-  color: #a9634070;
+  color: #9c5f1870;
   font-size: 18px;
   line-height: 1;
   pointer-events: none;

@@ -188,7 +188,7 @@ async function main() {
       .getByRole("button", { name: /Clear search/ })
       .click();
     await page.waitForURL(base + "/shop/");
-    await page.getByRole("button", { name: "Filters +" }).click();
+    await page.getByRole("button", { name: "Filters" }).click();
     assert.ok(await page.locator("dialog").isVisible());
     await page
       .locator("dialog")
@@ -381,7 +381,7 @@ async function main() {
     );
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(base + "/brand/daelim/");
-    await page.getByRole("button", { name: "Filters +", exact: true }).click();
+    await page.getByRole("button", { name: "Filters", exact: true }).click();
     assert.equal(
       await page.locator("dialog .active-brand strong").innerText(),
       "DAELIM",

@@ -1,4 +1,4 @@
-import Breadcrumbs from "../../components/Breadcrumbs";
+import PageHero from "../../components/PageHero";
 import { articles } from "../../data/articles";
 import { sourcePages } from "../../data/source-pages";
 import { metadata as meta } from "../../lib/site";
@@ -12,22 +12,26 @@ export const metadata = meta(
 export default function Page() {
   return (
     <main id="main" className="page">
-      <Breadcrumbs
-        items={[
+      <PageHero
+        crumbs={[
           { name: "Home", path: "/" },
           { name: "Articles", path: "/blog/" },
         ]}
-      />
-      <p className="eyebrow">FROM YAYBMT</p>
-      <h1>Articles</h1>
-      <div className="directory">
+        eyebrow="FROM YAYBMT"
+        title="Articles"
+      >
+        <p className="page-hero-lead">
+          Guides and news on building materials, fittings and marine hardware.
+        </p>
+      </PageHero>
+      <div className="directory article-directory">
         {articles.map((article) => (
           <a href={article.path} key={article.path}>
             <div>
               <h2>{article.title}</h2>
               <p>{article.description}</p>
             </div>
-            <span aria-hidden="true">+</span>
+            <span aria-hidden="true">→</span>
           </a>
         ))}
       </div>

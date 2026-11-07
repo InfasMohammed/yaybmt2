@@ -2,7 +2,7 @@ import AboutIntroCard from "../../components/AboutIntroCard";
 import ContactIntroCard from "../../components/ContactIntroCard";
 import ContactSections from "../../components/ContactSections";
 import AboutSections from "../../components/AboutSections";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import PageHero from "../../components/PageHero";
 import { origin } from "../../lib/site";
 import { notFound } from "next/navigation";
 import { pages } from "../../data/pages";
@@ -73,22 +73,21 @@ export default async function Page({
           }}
         />
       )}
-      <Breadcrumbs
-        items={[
+      <PageHero
+        crumbs={[
           { name: "Home", path: "/" },
           ...(!("kind" in item) ? [{ name: "Articles", path: "/blog/" }] : []),
           { name: item.title, path: item.path },
         ]}
-      />
-      <p className="eyebrow">
-        {"kind" in item ? "YUSUF AL YOUSFI" : "ARTICLES"}
-      </p>
-      <h1>{item.title}</h1>
-      {"publishedAt" in item && item.publishedAt && (
-        <p>
-          <time dateTime={item.publishedAt}>{item.publishedAt}</time>
-        </p>
-      )}
+        eyebrow={"kind" in item ? "YUSUF AL YOUSFI" : "ARTICLES"}
+        title={item.title}
+      >
+        {"publishedAt" in item && item.publishedAt && (
+          <p className="page-hero-meta">
+            <time dateTime={item.publishedAt}>{item.publishedAt}</time>
+          </p>
+        )}
+      </PageHero>
       {pathname === "/about-us/" ? (
         <AboutIntroCard paragraphs={item.paragraphs} />
       ) : pathname === "/contact-us/" ? (

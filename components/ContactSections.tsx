@@ -1,4 +1,6 @@
-import { LocationMap } from "./ui/location-map";
+import ScrollVideo from "./ScrollVideo";
+import ContainerScroll from "./ui/container-scroll";
+import { welcome } from "../data/welcome";
 import { contacts } from "../data/contacts";
 import { contactPage } from "../data/contact-page";
 import { whatsapp } from "../lib/site";
@@ -77,20 +79,34 @@ export default function ContactSections() {
       </div>
       <div className="contact-enquiry-row">
         <section
-          className="contact-map contact-panel"
+          className="contact-video contact-panel"
           data-page-reveal
-          aria-labelledby="contact-map-heading"
+          aria-labelledby="contact-video-heading"
         >
           <div className="contact-panel-heading">
-            <p className="eyebrow">VISIT OUR STORE</p>
-            <h2 id="contact-map-heading">Find us in Deira</h2>
+            <p className="eyebrow">INSIDE YAYBMT</p>
+            <h2 id="contact-video-heading">See our showroom and brands</h2>
+            <p>
+              Marine locks, sanitary ware and building materials, all in one
+              place in Deira, Dubai.
+            </p>
           </div>
-          <LocationMap
-            location={contacts.location}
-            address={contactPage.address}
-            mapEmbed={contactPage.mapEmbed}
-            mapHref={contacts.maps}
-          />
+          <ContainerScroll className="contact-video-scroll">
+            <figure data-video-card className="home-video-card">
+              <div className="home-video-bar">
+                <span className="home-video-dots" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span>YUSUF AL YOUSFI / DUBAI</span>
+                <span className="home-video-badge">Since 2004</span>
+              </div>
+              <div className="home-video-frame">
+                <ScrollVideo src={welcome.video} poster={welcome.poster} />
+              </div>
+            </figure>
+          </ContainerScroll>
         </section>
         <ContactEnquiry />
       </div>

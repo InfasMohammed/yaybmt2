@@ -204,7 +204,18 @@ export default function Catalogue({
       </noscript>
       <div className="tools">
         <label className="search">
-          Search products
+          <span className="search-label">Search products</span>
+          <svg
+            className="search-icon"
+            aria-hidden="true"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.8" />
+            <path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
           <input
             type="search"
             value={filters.query}
@@ -224,7 +235,21 @@ export default function Catalogue({
           onClick={() => dialog.current?.showModal()}
           aria-haspopup="dialog"
         >
-          Filters +
+          <svg
+            aria-hidden="true"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M4 6h16M7 12h10M10 18h4"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+            />
+          </svg>
+          Filters
         </button>
       </div>
       <div className="catalogue">

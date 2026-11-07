@@ -1,17 +1,17 @@
 import { TestimonialsSection } from "../components/ui/testimonials-section";
 import ScrollLogoAssembly from "../components/ui/text-scroll-animation";
-import ScrollRevealContentA from "../components/ui/scroll-reveal-content-a";
 import "./tailwind-home.css";
+import type { CSSProperties } from "react";
+import { inCategory } from "../lib/catalogue";
 import HomeMotion from "../components/HomeMotion";
-import ScrollVideo from "../components/ScrollVideo";
 import { brandLogos } from "../data/brand-logos";
 import { brands } from "../data/brands";
 import { categories } from "../data/categories";
+import { products } from "../data/products";
 import { categoryImages } from "../data/category-images";
 import { industries } from "../data/industries";
 import { sourcePages } from "../data/source-pages";
-import { welcome } from "../data/welcome";
-import { metadata as meta, whatsapp } from "../lib/site";
+import { metadata as meta } from "../lib/site";
 
 const source = sourcePages.find((p) => p.path === "/")!;
 export const metadata = meta(
@@ -21,13 +21,31 @@ export const metadata = meta(
 );
 const container = "tw:mx-auto tw:w-full tw:max-w-[1328px] tw:px-6";
 const eyebrow =
-  "tw:m-0 tw:text-[10px] tw:font-bold tw:tracking-[0.2em] tw:uppercase tw:text-copper-dark";
+  "tw:m-0 tw:inline-flex tw:items-center tw:gap-2 tw:rounded-full tw:border tw:border-solid tw:border-copper/30 tw:bg-copper/10 tw:px-3 tw:py-1 tw:text-[10px] tw:font-bold tw:tracking-[0.2em] tw:uppercase tw:text-copper-dark";
 const heading =
-  "tw:m-0 tw:text-[34px] tw:leading-[1.1] tw:font-semibold tw:tracking-[-1.5px] tw:md:text-[48px]";
+  "tw:m-0 tw:font-[Manrope_Variable,Arial,sans-serif] tw:text-[34px] tw:leading-[1.05] tw:font-bold tw:tracking-[-1.5px] tw:md:text-[52px] tw:md:tracking-[-2.5px]";
 const button =
-  "tw:inline-flex tw:min-h-12 tw:items-center tw:justify-between tw:gap-8 tw:border tw:border-solid tw:border-copper tw:bg-copper tw:px-6 tw:py-3.5 tw:text-[13px] tw:font-bold tw:text-white tw:no-underline tw:hover:bg-copper-dark tw:hover:no-underline tw:motion-safe:transition-colors";
+  "tw:inline-flex tw:min-h-12 tw:items-center tw:justify-between tw:gap-6 tw:rounded-full tw:border tw:border-solid tw:border-copper tw:bg-copper tw:py-3 tw:pr-3 tw:pl-6 tw:text-[14px] tw:font-bold tw:text-ink tw:no-underline tw:shadow-[0_10px_30px_-12px_rgba(199,131,42,0.6)] tw:hover:border-copper-light tw:hover:bg-copper-light tw:hover:no-underline tw:motion-safe:transition-[background-color,border-color,transform] tw:motion-safe:hover:-translate-y-0.5 tw:[&>svg]:box-content tw:[&>svg]:rounded-full tw:[&>svg]:bg-ink/10 tw:[&>svg]:p-1.5";
 const link =
   "tw:inline-flex tw:min-h-11 tw:items-center tw:gap-5 tw:text-[13px] tw:font-bold tw:text-copper-dark tw:no-underline tw:hover:underline tw:underline-offset-4";
+const rangeCards = categories
+  .filter((c) => Boolean(categoryImages[c.slug]))
+  .map((c) => {
+    const count = products.filter((p) => inCategory(p, c.slug)).length;
+    const subRanges = categories
+      .filter((sub) => sub.slug.startsWith(c.slug + "/"))
+      .map((sub) => sub.name);
+    return {
+      slug: c.slug,
+      name: c.name,
+      image: categoryImages[c.slug],
+      countLabel: count === 1 ? "1 product" : count + " products",
+      summary: subRanges.length
+        ? subRanges.slice(0, 4).join(" · ") +
+          (subRanges.length > 4 ? " and more." : ".")
+        : "Browse every " + c.name.toLowerCase() + " product in our catalogue.",
+    };
+  });
 const industryCopy: Record<string, string> = {
   marine: "Marine locks, sanitary ware and ship-chandlery hardware.",
   "engineering-fabrication":
@@ -73,168 +91,90 @@ export default function Home() {
     >
       <HomeMotion />
       <section
-        className="hero tw:relative tw:isolate tw:flex tw:min-h-[790px] tw:flex-col tw:justify-end tw:bg-ink tw:bg-none tw:px-0 tw:pt-[220px] tw:pb-28 tw:text-white tw:md:min-h-[800px] tw:md:pt-[210px] tw:md:pb-36"
+        className="hero home-hero tw:relative tw:isolate tw:flex tw:min-h-[720px] tw:flex-col tw:justify-center tw:overflow-hidden tw:px-0 tw:pt-[140px] tw:pb-20 tw:md:min-h-[780px] tw:md:pt-[160px] tw:lg:pb-24"
         aria-labelledby="home-title"
       >
-        <img
-          src="/images/hero-marine.webp"
-          alt=""
-          width="1774"
-          height="887"
-          fetchPriority="high"
-          className="tw:absolute tw:inset-0 tw:-z-20 tw:h-full tw:w-full tw:object-cover tw:object-[62%_center]"
-        />
-        <div
-          aria-hidden="true"
-          className="tw:absolute tw:inset-0 tw:-z-10 tw:bg-[linear-gradient(90deg,rgba(17,25,24,0.96)_0%,rgba(17,25,24,0.73)_50%,rgba(17,25,24,0.2)_100%)]"
-        />
+        <div aria-hidden="true" className="home-hero-backdrop" />
         <div className={container}>
-          <div className="tw:grid tw:gap-12 tw:lg:grid-cols-[1fr_250px] tw:lg:items-end">
-            <div className="hero-intro">
-              <p className="tw:m-0 tw:flex tw:items-center tw:gap-3 tw:text-[10px] tw:font-bold tw:tracking-[0.22em] tw:text-copper-light">
-                <span
-                  aria-hidden="true"
-                  className="tw:h-px tw:w-8 tw:bg-copper-light"
-                />
-                DEIRA, DUBAI · SINCE 2004
-              </p>
-              <h1
-                id="home-title"
-                className="tw:my-7 tw:text-[clamp(38px,5.5vw,80px)] tw:leading-[1.02] tw:font-bold tw:tracking-[-2px] tw:md:tracking-[-3.5px]"
+          <div className="hero-intro tw:mx-auto tw:flex tw:max-w-[980px] tw:flex-col tw:items-center tw:text-center">
+            <h1
+              id="home-title"
+              className="tw:mt-7 tw:mb-6 tw:max-w-[900px] tw:font-[Manrope_Variable,Arial,sans-serif] tw:text-[clamp(32px,4.6vw,64px)] tw:leading-[1.04] tw:font-extrabold tw:tracking-[-1.5px] tw:text-ink tw:md:tracking-[-2.5px]"
+            >
+              Welcome to{" "}
+              <span className="home-hero-accent">
+                Yusuf Al Yousfi Building Materials Trading LLC
+              </span>
+            </h1>
+            <p className="tw:mt-0 tw:mb-9 tw:max-w-[540px] tw:text-[18px] tw:leading-[1.7] tw:text-muted">
+              Explore building materials, sanitary fittings and marine
+              hardware. Find your product. Speak to our team.
+            </p>
+            <div className="tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-3">
+              <a className={button} href="/shop/">
+                Explore the catalogue <Arrow />
+              </a>
+              <a
+                href="/contact-us/"
+                className="tw:inline-flex tw:min-h-12 tw:items-center tw:gap-4 tw:rounded-full tw:border tw:border-solid tw:border-[#d9d7cf] tw:bg-white tw:px-6 tw:text-[14px] tw:font-semibold tw:text-ink tw:no-underline tw:hover:border-ink tw:hover:no-underline tw:motion-safe:transition-colors"
               >
-                Strong foundations.
-                <br />
-                <span className="tw:font-normal tw:text-copper-light">
-                  Lasting connections.
-                </span>
-              </h1>
-              <p className="tw:mt-0 tw:mb-8 tw:max-w-[435px] tw:text-[15px] tw:leading-[1.85] tw:text-white/80">
-                Explore building materials, sanitary fittings and marine
-                hardware. Find your product. Speak to our team.
-              </p>
-              <div className="tw:flex tw:flex-wrap tw:items-center tw:gap-x-7 tw:gap-y-3">
-                <a className={button} href="/shop/">
-                  Explore the catalogue <Arrow />
-                </a>
-                <a
-                  href="/contact-us/"
-                  className="tw:inline-flex tw:min-h-11 tw:items-center tw:gap-4 tw:text-[13px] tw:font-semibold tw:text-white"
-                >
-                  Talk to our team <Arrow />
-                </a>
-              </div>
+                Talk to our team <Arrow />
+              </a>
             </div>
-            <div className="hero-industry-links tw:hidden tw:border-0 tw:border-l tw:border-solid tw:border-white/25 tw:pl-7 tw:lg:block">
-              <p className="tw:mt-0 tw:mb-6 tw:text-[9px] tw:tracking-[0.2em] tw:text-white/60">
-                BUILT AROUND YOUR INDUSTRY
-              </p>
-              {industries.map((i, index) => (
-                <a
-                  key={i.slug}
-                  href={"#industry-" + i.slug}
-                  className="tw:flex tw:items-center tw:gap-4 tw:border-0 tw:border-b tw:border-solid tw:border-white/20 tw:py-4 tw:text-[14px] tw:text-white tw:no-underline tw:hover:text-copper-light tw:hover:no-underline"
-                >
-                  <span className="tw:text-[10px] tw:text-copper-light">
-                    0{index + 1}
-                  </span>
-                  <span className="tw:flex-1">{i.name}</span>
+            <dl className="home-hero-stats">
+              {[
+                ["2004", "Established"],
+                [String(products.length), "Products"],
+                [String(brands.length), "Brands"],
+                [String(categories.length), "Categories"],
+              ].map(([value, label]) => (
+                <div key={label}>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+            <nav
+              className="hero-industry-links home-hero-industries"
+              aria-label="Built around your industry"
+            >
+              <span>Built around your industry</span>
+              {industries.map((i) => (
+                <a key={i.slug} href={"#industry-" + i.slug}>
+                  {i.name}
                   <Arrow diagonal />
                 </a>
               ))}
-            </div>
+            </nav>
           </div>
         </div>
       </section>
       <section
         aria-labelledby="home-brands-heading"
-        className={container + " tw:relative tw:z-1 tw:-mt-12"}
+        className={container + " tw:relative tw:z-1 tw:pb-24"}
       >
-        <div
-          data-home-reveal
-          className="tw:border tw:border-solid tw:border-[#dedfd6] tw:bg-white tw:px-6 tw:py-4 tw:shadow-[0_16px_45px_-30px_rgba(37,40,39,0.3)] tw:md:px-9"
-        >
-          <div className="tw:mb-3 tw:flex tw:items-center tw:justify-between tw:gap-5">
-            <h2
-              id="home-brands-heading"
-              className="tw:m-0 tw:text-[10px] tw:font-bold tw:tracking-[0.18em] tw:uppercase"
-            >
-              Explore our brands
-            </h2>
-            <a
-              href="/brands/"
-              className="tw:inline-flex tw:min-h-8 tw:items-center tw:gap-3 tw:text-[11px] tw:text-muted"
-            >
-              View all <Arrow />
+        <div data-home-reveal className="home-brands-card">
+          <div className="home-brands-intro">
+            <p className="home-brands-eyebrow">Trusted partners</p>
+            <h2 id="home-brands-heading">Explore our brands</h2>
+            <p>
+              {brands.length} specialist brands across marine, sanitary and
+              building ranges.
+            </p>
+            <a href="/brands/" className="home-brands-link">
+              View all brands <Arrow />
             </a>
           </div>
-          <ScrollLogoAssembly />
+          <div className="home-brands-marquee">
+            <ScrollLogoAssembly />
+          </div>
         </div>
       </section>
-      <section
-        className={
-          container +
-          " welcome-section tw:grid tw:grid-cols-1 tw:gap-12 tw:py-20 tw:lg:grid-cols-2 tw:lg:items-center tw:lg:gap-20 tw:lg:py-28"
-        }
-        aria-labelledby="welcome-heading"
-      >
-        <figure
-          data-home-reveal
-          data-video-card
-          className="tw:m-0 tw:min-w-0 tw:overflow-hidden tw:rounded-2xl tw:border tw:border-solid tw:border-[#dedfd6] tw:bg-white tw:p-3 tw:shadow-[0_16px_40px_-28px_rgba(37,40,39,0.35)] tw:sm:p-4"
-        >
-          <div className="tw:flex tw:items-center tw:justify-between tw:gap-4 tw:px-2 tw:pt-1 tw:pb-4">
-            <span className="tw:text-[9px] tw:font-bold tw:tracking-[0.15em] tw:text-muted">
-              YUSUF AL YOUSFI / DUBAI
-            </span>
-            <span
-              aria-hidden="true"
-              className="tw:h-1.5 tw:w-1.5 tw:shrink-0 tw:rounded-full tw:bg-copper"
-            />
-          </div>
-          <div className="tw:aspect-video tw:overflow-hidden tw:rounded-xl tw:bg-ink tw:[&_video]:block tw:[&_video]:h-full tw:[&_video]:w-full tw:[&_video]:object-contain">
-            <ScrollVideo src={welcome.video} poster={welcome.poster} />
-          </div>
-          <figcaption className="tw:flex tw:items-center tw:gap-5 tw:px-2 tw:pt-5 tw:pb-2 tw:sm:gap-7">
-            <strong className="tw:text-[42px] tw:leading-none tw:font-normal tw:tracking-[-2px] tw:text-copper-dark">
-              2004
-            </strong>
-            <span className="tw:border-0 tw:border-l tw:border-solid tw:border-[#dedfd6] tw:pl-5 tw:text-[11px] tw:leading-[1.8] tw:text-muted">
-              Established in Dubai.
-              <br />
-              Built on lasting connections.
-            </span>
-          </figcaption>
-        </figure>
-        <div data-home-reveal className="welcome-story-card tw:min-w-0">
-          <p className={eyebrow + " welcome-story-eyebrow"}>
-            {welcome.heading}
-          </p>
-          <h2
-            id="welcome-heading"
-            className="tw:mt-5 tw:mb-6 tw:text-[32px] tw:leading-[1.13] tw:font-semibold tw:tracking-[-1.3px] tw:md:text-[40px]"
-          >
-            {welcome.title}
-          </h2>
-          <div className="tw:space-y-4 tw:text-[13px] tw:leading-[1.85] tw:text-muted">
-            {welcome.paragraphs.map((p) => (
-              <p key={p} className="tw:mt-0 tw:mb-4 tw:last:mb-0">
-                {p}
-              </p>
-            ))}
-          </div>
-          <a href="/about-us/" className={link + " welcome-story-link tw:mt-5"}>
-            Discover our company <Arrow />
-          </a>
-        </div>
-      </section>
-      <section
-        className="tw:bg-[#eeeee7] tw:py-20 tw:md:py-24"
-        aria-labelledby="ranges-heading"
-      >
+      <section className="home-ranges" aria-labelledby="ranges-heading">
         <div className={container}>
           <div
             data-home-reveal
-            className="tw:mb-10 tw:flex tw:flex-col tw:gap-6 tw:md:flex-row tw:md:items-end tw:md:justify-between"
+            className="tw:mb-12 tw:flex tw:flex-col tw:gap-6 tw:md:flex-row tw:md:items-end tw:md:justify-between"
           >
             <div>
               <p className={eyebrow + " tw:mb-4"}>01 / PRODUCT RANGES</p>
@@ -250,162 +190,107 @@ export default function Home() {
               Browse all categories <Arrow />
             </a>
           </div>
-          <div
-            className="tw:grid tw:grid-cols-1 tw:gap-4 tw:min-[360px]:grid-cols-2 tw:lg:grid-cols-3 tw:lg:gap-6"
-            data-category-grid
-          >
-            {categories
-              .filter((c) => Boolean(categoryImages[c.slug]))
-              .map((c) => (
-                <a
-                  data-home-reveal
-                  key={c.slug}
-                  href={"/product-category/" + c.slug + "/"}
-                  className="tw:group tw:flex tw:min-w-0 tw:flex-col tw:overflow-hidden tw:rounded-2xl tw:border tw:border-solid tw:border-[#ddded5] tw:bg-white tw:p-4 tw:no-underline tw:hover:border-copper tw:hover:no-underline tw:motion-safe:transition-[border-color,box-shadow] tw:motion-safe:duration-300 tw:motion-safe:hover:shadow-[0_18px_40px_-25px_rgba(100,66,45,0.3)] tw:sm:p-6"
-                >
-                  <span className="tw:min-h-[80px] tw:pt-1 tw:text-[14px] tw:leading-snug tw:font-semibold tw:text-ink tw:sm:min-h-[56px] tw:sm:text-[18px]">
-                    {c.name}
+          <div className="range-grid" data-category-grid>
+            {rangeCards.map((c) => (
+              <a
+                data-home-reveal
+                key={c.slug}
+                href={"/product-category/" + c.slug + "/"}
+                className="range-card"
+                style={
+                  { "--range-image": `url(${c.image.src})` } as CSSProperties
+                }
+              >
+                <span className="range-card-media">
+                  <img
+                    src={c.image.src}
+                    alt=""
+                    width={c.image.width}
+                    height={c.image.height}
+                    loading="lazy"
+                  />
+                </span>
+                <span className="range-card-body">
+                  <span className="range-pill">{c.countLabel}</span>
+                  <span className="range-card-name">{c.name}</span>
+                </span>
+                <span className="range-card-hover" aria-hidden="true">
+                  <span className="range-pill range-pill-light">
+                    {c.countLabel}
                   </span>
-                  <span className="tw:flex tw:h-[130px] tw:items-center tw:justify-center tw:px-1 tw:py-3 tw:sm:h-[180px] tw:sm:px-4">
-                    <img
-                      src={categoryImages[c.slug].src}
-                      alt=""
-                      width={categoryImages[c.slug].width}
-                      height={categoryImages[c.slug].height}
-                      loading="lazy"
-                      className="tw:block tw:h-full tw:w-full tw:object-contain tw:motion-safe:transition-transform tw:motion-safe:duration-500 tw:motion-safe:group-hover:scale-105"
-                    />
+                  <span className="range-hover-title">{c.name}</span>
+                  <span className="range-hover-text">{c.summary}</span>
+                  <span className="range-hover-cta">
+                    Explore range <Arrow />
                   </span>
-                  <span
-                    aria-hidden="true"
-                    className="tw:mt-auto tw:flex tw:items-center tw:justify-between tw:gap-3 tw:pt-3 tw:text-[10px] tw:font-medium tw:tracking-wide tw:text-muted"
-                  >
-                    <span>Explore range</span>
-                    <span className="tw:flex tw:h-8 tw:w-8 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:border tw:border-solid tw:border-[#e2d8cd] tw:bg-paper tw:text-copper-dark tw:group-hover:border-copper tw:group-hover:bg-copper tw:group-hover:text-white tw:motion-safe:transition-colors tw:sm:h-10 tw:sm:w-10">
-                      <Arrow diagonal />
-                    </span>
-                  </span>
-                </a>
-              ))}
+                </span>
+              </a>
+            ))}
           </div>
-          <div
-            data-home-reveal
-            className="tw:mt-8 tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-x-8 tw:gap-y-2 tw:border-0 tw:border-t tw:border-solid tw:border-[#d1d1c6] tw:pt-5"
-          >
-            <p className="tw:m-0 tw:text-[13px] tw:text-muted">
-              Looking for a particular product or model?
-            </p>
-            <a className={link} href="/shop/">
+          <div data-home-reveal className="home-ranges-footer">
+            <p>Looking for a particular product or model?</p>
+            <a className={button} href="/shop/">
               Search the catalogue <Arrow />
             </a>
           </div>
         </div>
       </section>
       <section
-        className={container + " tw:py-14 tw:md:py-16"}
+        className="home-industries"
         aria-labelledby="industries-heading"
       >
-        <div
-          data-home-reveal
-          className="tw:mb-10 tw:flex tw:flex-col tw:gap-6 tw:md:flex-row tw:md:items-end tw:md:justify-between"
-        >
-          <div>
-            <p className={eyebrow + " tw:mb-4"}>02 / OUR EXPERTISE</p>
-            <h2
-              id="industries-heading"
-              className={heading.replace(
-                "tw:md:text-[48px]",
-                "tw:md:text-[36px]",
-              )}
-            >
-              Industries We Serve
-            </h2>
+        <div className={container + " home-industries-inner"}>
+          <div data-home-reveal className="home-industries-intro">
+            <p className="home-brands-eyebrow">02 / OUR EXPERTISE</p>
+            <h2 id="industries-heading">Industries We Serve</h2>
+            <p>Comprehensive Solutions for a Wide Range of Industries</p>
+            <div className="home-industries-links">
+              <span>Explore our specialist marine ranges.</span>
+              {brands
+                .filter((b) => !brandLogos[b.slug])
+                .map((b) => (
+                  <a
+                    href={"/brand/" + b.slug + "/"}
+                    key={b.slug}
+                    className="home-brands-link"
+                  >
+                    {b.name}
+                    <Arrow />
+                  </a>
+                ))}
+            </div>
           </div>
-          <p className="tw:m-0 tw:max-w-[270px] tw:text-[14px] tw:leading-[1.8] tw:text-muted">
-            Comprehensive Solutions for a Wide Range of Industries
-          </p>
-        </div>
-        <ScrollRevealContentA
-          contentA={industryContent[0]}
-          contentB={industryContent[1]}
-          contentC={industryContent[2]}
-        />
-        <div
-          data-home-reveal
-          className="tw:mt-7 tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-4"
-        >
-          <p className="tw:m-0 tw:text-[13px] tw:text-muted">
-            Explore our specialist marine ranges.
-          </p>
-          <div className="tw:flex tw:flex-wrap tw:gap-x-7 tw:gap-y-1">
-            {brands
-              .filter((b) => !brandLogos[b.slug])
-              .map((b) => (
-                <a
-                  href={"/brand/" + b.slug + "/"}
-                  key={b.slug}
-                  className={link + " tw:text-[11px]"}
-                >
-                  {b.name}
-                  <Arrow />
-                </a>
-              ))}
+          <div className="industry-list" data-industry-grid>
+            {industryContent.map((item, index) => (
+              <article
+                data-home-reveal
+                id={item.id}
+                key={item.id}
+                className="industry-row"
+              >
+                <span className="industry-row-media">
+                  <img
+                    src={item.image.url}
+                    alt={item.image.alt}
+                    width={item.image.width}
+                    height={item.image.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
+                <span className="industry-row-copy">
+                  <span className="industry-row-number" aria-hidden="true">
+                    0{index + 1}
+                  </span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </span>
+              </article>
+            ))}
           </div>
         </div>
       </section>
       <TestimonialsSection />
-      <section
-        className="tw:relative tw:isolate tw:overflow-hidden tw:border-0 tw:border-y tw:border-solid tw:border-[#dedfd6] tw:bg-sand tw:py-14 tw:text-ink tw:md:py-16"
-        aria-labelledby="home-enquiry-heading"
-      >
-        <div
-          aria-hidden="true"
-          className="tw:pointer-events-none tw:absolute tw:-top-40 tw:-right-32 tw:-z-10 tw:h-[500px] tw:w-[500px] tw:rounded-full tw:border tw:border-solid tw:border-copper/15"
-        />
-        <div
-          data-home-reveal
-          className={
-            container +
-            " tw:grid tw:gap-9 tw:lg:grid-cols-[1fr_420px] tw:lg:items-center tw:lg:gap-20"
-          }
-        >
-          <div>
-            <p className="tw:mt-0 tw:mb-5 tw:text-[10px] tw:font-bold tw:tracking-[0.2em] tw:text-copper-dark">
-              LET’S TALK ABOUT YOUR PROJECT
-            </p>
-            <h2
-              id="home-enquiry-heading"
-              className={heading.replace(
-                "tw:md:text-[48px]",
-                "tw:md:text-[42px]",
-              )}
-            >
-              Your requirements.
-              <br />
-              <span className="tw:font-normal tw:text-copper-dark">
-                Our next conversation.
-              </span>
-            </h2>
-          </div>
-          <div>
-            <p className="tw:mt-0 tw:mb-6 tw:text-[14px] tw:leading-[1.9] tw:text-muted">
-              Share your product list, model numbers and project requirements
-              with our team in Deira, Dubai.
-            </p>
-            <div className="tw:flex tw:flex-wrap tw:items-center tw:gap-x-6 tw:gap-y-3">
-              <a className={button} href="/contact-us/">
-                Make an enquiry <Arrow />
-              </a>
-              <a
-                href={whatsapp()}
-                className="tw:inline-flex tw:min-h-11 tw:items-center tw:gap-3 tw:text-[12px] tw:font-semibold tw:text-copper-dark"
-              >
-                WhatsApp our team <Arrow />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

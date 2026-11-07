@@ -2,10 +2,10 @@
 .contact-page .contact-detail-card,
 .contact-page .contact-panel {
   min-width: 0;
-  border: 1px solid #a963402b;
+  border: 1px solid #9c5f182b;
   border-radius: 18px;
   background: #fff;
-  box-shadow: 0 6px 24px #25282703;
+  box-shadow: 0 6px 24px #0e1a2203;
 }
 .contact-page .contact-intro-card {
   padding: 28px 32px;
@@ -27,7 +27,7 @@
 }
 .contact-page .contact-intro-copy p {
   margin: 0 0 16px;
-  color: #565c57;
+  color: #5b646a;
   font-size: 15px;
   line-height: 1.8;
 }
@@ -53,12 +53,12 @@
 }
 .contact-page .contact-detail-card p,
 .contact-page .contact-detail-card address {
-  color: #565c57;
+  color: #5b646a;
   font-size: 14px;
   line-height: 1.8;
 }
 .contact-page .contact-detail-card a {
-  color: #8c4d2d;
+  color: #7a4a10;
   font-size: 14px;
   line-height: 1.7;
   font-weight: 600;
@@ -88,7 +88,7 @@
 .contact-page .contact-panel-heading > p:last-child:not(.eyebrow) {
   margin: 12px 0 0;
   font-size: 14px;
-  color: #656b65;
+  color: #5b646a;
   line-height: 1.7;
 }
 .contact-map-frame {
@@ -127,7 +127,7 @@
   line-height: 1.6;
 }
 .contact-page .contact-enquiry-form :is(input, textarea):focus-visible {
-  outline: 2px solid #8c4d2d;
+  outline: 2px solid #7a4a10;
   outline-offset: 2px;
   background: #fff;
 }
@@ -140,7 +140,7 @@
   border-radius: 10px;
   min-height: 50px;
   margin: 2px 0 0;
-  background: #8c4d2d;
+  background: #7a4a10;
   font-size: 14px;
 }
 .contact-page .contact-enquiry-form button img {
@@ -156,13 +156,13 @@
 .contact-page .enquiry-help {
   font-size: 12px;
   line-height: 1.65;
-  color: #656b65;
+  color: #5b646a;
   margin: 16px 0 0;
 }
 @media (hover: hover) {
   .contact-page .contact-detail-card:hover {
     border-color: var(--copper);
-    box-shadow: 0 10px 28px #2528270a;
+    box-shadow: 0 10px 28px #0e1a220a;
   }
   .contact-page .contact-enquiry-form button:hover {
     background: #754025;
@@ -227,69 +227,125 @@
   text-align: center;
 }
 
-/* Editorial introduction: clear reading order and a quiet copper closing panel. */
+/* Modern introduction: left-aligned heading, short lead, stocked ranges and an action panel. */
 .contact-page .contact-intro-card {
   position: relative;
-  padding: clamp(26px, 4vw, 52px);
-  border-radius: 24px;
-  border-color: #a9634030;
-  background: linear-gradient(135deg, #fff 72%, #f7f2eb);
-  box-shadow: 0 18px 48px -36px #25282742;
+  overflow: hidden;
+  margin: 0 0 24px;
+  padding: clamp(26px, 4.5vw, 56px);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background:
+    radial-gradient(55% 90% at 100% 0%, rgba(199, 131, 42, 0.12), transparent 60%),
+    radial-gradient(45% 80% at 0% 100%, rgba(120, 170, 190, 0.14), transparent 60%),
+    #fff;
+  box-shadow: none;
 }
-.contact-page .contact-intro-card::before {
-  content: "";
-  display: block;
-  width: 40px;
-  height: 3px;
-  margin: 0 auto 22px;
-  border-radius: 3px;
-  background: #a96340;
+.contact-page .contact-intro-card > .eyebrow {
+  display: inline-flex;
+  margin: 0 0 18px;
+  text-align: left;
 }
 .contact-page .contact-intro-card > h2 {
-  max-width: 820px;
-  margin-bottom: 30px;
-  font-size: clamp(25px, 2.7vw, 36px);
-  letter-spacing: -0.8px;
-  line-height: 1.25;
+  max-width: 860px;
+  margin: 0 0 28px;
+  font-size: clamp(28px, 3.4vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-align: left;
+}
+.contact-intro-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
+  gap: 28px 48px;
+  align-items: start;
 }
 .contact-page .contact-intro-copy p {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.85;
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.75;
 }
-.contact-page .contact-intro-copy p:first-child {
-  grid-column: 1/-1;
-  margin: 0;
-  padding-bottom: 26px;
-  border-bottom: 1px solid #e5dfd5;
-  font-size: 16px;
-  color: #424942;
-}
-.contact-page .contact-intro-copy p:last-child {
-  align-self: start;
-  padding: 22px 24px;
-  border-left: 2px solid #a96340;
-  border-radius: 0 12px 12px 0;
-  background: #eee7dc90;
-  color: #4c453d;
-  font-family: var(--font-heading);
-  font-size: 17px;
-  font-weight: 500;
+.contact-page .contact-intro-text > p:first-child {
+  color: var(--ink);
+  font-size: clamp(17px, 1.6vw, 19px);
   line-height: 1.65;
+}
+.contact-intro-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.contact-intro-tags li {
+  padding: 6px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--ink);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.contact-intro-action {
+  display: grid;
+  gap: 10px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--canvas);
+}
+.contact-page .contact-intro-action p {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.contact-intro-action .button {
+  width: 100%;
+}
+
+/* Detail cards: icon chip, left-aligned, gentle lift. */
+.contact-page .contact-detail-card {
+  padding: 26px 24px;
+  border-color: var(--line);
+  border-radius: 22px;
+  text-align: left;
+  transition:
+    border-color 220ms ease,
+    box-shadow 300ms var(--ease),
+    transform 300ms var(--ease);
+}
+.contact-page .contact-detail-card .contact-card-icon {
+  box-sizing: content-box;
+  width: 24px;
+  height: 24px;
+  margin: 0 0 18px;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(199, 131, 42, 0.12);
+  color: var(--copper-dark);
+}
+.contact-page .contact-detail-card h2 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+@media (hover: hover) {
+  .contact-page .contact-detail-card:hover {
+    border-color: rgba(199, 131, 42, 0.5);
+    box-shadow: var(--shadow);
+    transform: translateY(-3px);
+  }
+}
+.contact-page .contact-panel {
+  border-color: var(--line);
+  border-radius: 24px;
 }
 @media (max-width: 800px) {
   .contact-intro-copy {
-    gap: 22px;
-  }
-  .contact-page .contact-intro-card > h2 {
-    margin-bottom: 24px;
-  }
-  .contact-page .contact-intro-copy p:first-child {
-    font-size: 15px;
-    padding-bottom: 22px;
-  }
-  .contact-page .contact-intro-copy p:last-child {
-    font-size: 16px;
-    padding: 18px 20px;
+    grid-template-columns: 1fr;
   }
 }
