@@ -48,6 +48,7 @@ export default function Card({ product: p }: { product: CatalogueItem }) {
             <Placeholder />
           )}
           <BrandBadge brand={p.brand} />
+          {p.focus && <span className="focus-pill">Top product</span>}
           <span className="card-quick" aria-hidden="true">
             View details
           </span>

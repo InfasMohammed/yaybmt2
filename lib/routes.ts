@@ -58,7 +58,7 @@ export const routes: Route[] = [
     indexable: a.status !== "sample",
     source: a.source,
   })),
-  ...["/brands/", "/categories/"].map((path) => ({
+  ...["/brands/", "/categories/", "/top-products/"].map((path) => ({
     path,
     kind: "directory" as const,
     indexable: true,

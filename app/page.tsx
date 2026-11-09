@@ -186,9 +186,14 @@ export default function Home() {
                 </span>
               </h2>
             </div>
-            <a className={link} href="/categories/">
-              Browse all categories <Arrow />
-            </a>
+            <div className="tw:flex tw:flex-wrap tw:gap-x-8 tw:gap-y-2">
+              <a className={link} href="/top-products/">
+                View top products <Arrow />
+              </a>
+              <a className={link} href="/categories/">
+                Browse all categories <Arrow />
+              </a>
+            </div>
           </div>
           <div className="range-grid" data-category-grid>
             {rangeCards.map((c) => (

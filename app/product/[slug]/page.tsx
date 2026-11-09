@@ -8,6 +8,13 @@ import ContentBody from "../../../components/ContentBody";
 import { brands } from "../../../data/brands";
 import { categories } from "../../../data/categories";
 import Card from "../../../components/Card";
+import { catalogueItem } from "../../../lib/catalogue-data";
+import {
+  displaySpecifications,
+  focusEntry,
+  keyFacts,
+  liveFocusProducts,
+} from "../../../data/focus-products";
 import Gallery from "../../../components/Gallery";
 import { metadata as meta, whatsapp, origin } from "../../../lib/site";
 export function generateStaticParams() {
@@ -43,6 +50,10 @@ export default async function Product({
   );
   if (!p) notFound();
   const brand = brands.find((b) => b.slug === p.brand);
+  const focus = focusEntry(p.slug);
+  const specs = displaySpecifications(p);
+  const facts = focus ? keyFacts(p) : [];
+  // Related by brand (or category); the client's focus products are listed first.
   const related = products
     .filter(
       (x) =>
@@ -51,7 +62,25 @@ export default async function Product({
           ? x.brand === p.brand
           : x.categorySlugs.some((c) => p.categorySlugs.includes(c))),
     )
+    .sort(
+      (a, b) =>
+        Number(Boolean(focusEntry(b.slug))) -
+        Number(Boolean(focusEntry(a.slug))),
+    )
     .slice(0, 3);
+  const otherTop = focus
+    ? liveFocusProducts()
+        .filter(
+          (x) =>
+            x.slug !== p.slug && !related.some((r) => r.slug === x.slug),
+        )
+        .sort(
+          (a, b) =>
+            Number(focusEntry(b.slug)?.group === focus.group) -
+            Number(focusEntry(a.slug)?.group === focus.group),
+        )
+        .slice(0, 4)
+    : [];
   const structured =
     p.status !== "sample"
       ? {
@@ -96,8 +125,19 @@ export default async function Product({
             {brand?.name || "YAYBMT CATALOGUE"} /{" "}
             {p.status === "sample" ? "PRODUCT SAMPLE" : "PRODUCT INFORMATION"}
           </p>
+          {focus && <p className="focus-badge">Top product</p>}
           <h1>{p.name}</h1>
           <p className="model">{p.model ? "MODEL " + p.model : ""}</p>
+          {facts.length > 0 && (
+            <dl className="key-facts" aria-label="Key facts">
+              {facts.map((fact) => (
+                <div key={fact.label}>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
           {p.description.length ? (
             p.description.map((text, i) => (
               <p className="product-copy" key={i}>
@@ -159,9 +199,9 @@ export default async function Product({
           </details>
           <details open className="product-panel">
             <summary>Specifications</summary>
-            {p.specifications.length ? (
+            {specs.length ? (
               <dl>
-                {p.specifications.map((spec, i) => (
+                {specs.map((spec, i) => (
                   <div className="spec-row" key={spec.label + String(i)}>
                     <dt>{spec.label}</dt>
                     <dd>{spec.value}</dd>
@@ -207,7 +247,24 @@ export default async function Product({
           <p>Related by {brand ? "brand" : "category"} only.</p>
           <div className="grid">
             {related.map((x) => (
-              <Card key={x.slug} product={x} />
+              <Card key={x.slug} product={catalogueItem(x)} />
+            ))}
+          </div>
+        </section>
+      )}
+      {otherTop.length > 0 && (
+        <section className="related focus-related">
+          <p className="eyebrow">TOP PRODUCTS</p>
+          <h2>Other top products</h2>
+          <p>
+            Our most requested lines.{" "}
+            <a className="text-link" href="/top-products/">
+              View all top products
+            </a>
+          </p>
+          <div className="grid">
+            {otherTop.map((x) => (
+              <Card key={x.slug} product={catalogueItem(x)} />
             ))}
           </div>
         </section>

@@ -7,6 +7,8 @@ import { categories } from "../data/categories";
 import { inCategory } from "../lib/catalogue";
 import { whatsapp } from "../lib/site";
 import Catalogue from "./Catalogue";
+import Card from "./Card";
+import { liveFocusProducts } from "../data/focus-products";
 export default function ArchivePage({
   term,
   kind,
@@ -17,6 +19,10 @@ export default function ArchivePage({
   kind: "brand" | "category";
 }) {
   const items = products.filter((p) =>
+    kind === "brand" ? p.brand === term.slug : inCategory(p, term.slug),
+  );
+  // Client focus products that belong to this brand/category, shown first as a strip.
+  const topProducts = liveFocusProducts().filter((p) =>
     kind === "brand" ? p.brand === term.slug : inCategory(p, term.slug),
   );
   const children =
@@ -59,6 +65,26 @@ export default function ArchivePage({
           <p className="distributor-note">{term.distributorNote}</p>
         )}
       </PageHero>
+      {page === 1 &&
+        topProducts.length > 0 &&
+        items.length > topProducts.length && (
+        <section
+          className="archive-top-products"
+          aria-labelledby="archive-top-heading"
+        >
+          <div className="archive-top-head">
+            <h2 id="archive-top-heading">Top products in {term.name}</h2>
+            <a className="text-link" href="/top-products/">
+              All top products
+            </a>
+          </div>
+          <div className="grid">
+            {topProducts.map((p) => (
+              <Card key={p.slug} product={catalogueItem(p)} />
+            ))}
+          </div>
+        </section>
+      )}
       {items.length ? (
         <>
           <Catalogue

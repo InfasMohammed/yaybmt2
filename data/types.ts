@@ -64,4 +64,7 @@ export type SourcePage = {
 export type CatalogueItem = Pick<
   Product,
   "slug" | "name" | "model" | "brand" | "categorySlugs" | "images"
->;
+> & {
+  /** Client focus-product rank (1–20), when this is one of the 20 highlighted products. */
+  focus?: number;
+};

@@ -7,13 +7,14 @@
     "build": "next build",
     "typecheck": "next typegen && tsc --noEmit",
     "preview": "python3 scripts/serve-export.py",
-    "test:browser": "node --import tsx scripts/check-browser.ts && node --import tsx scripts/check-drawings-browser.ts && npm run test:home && npm run test:paragraphs && npm run test:team && npm run test:company && npm run test:gallery && npm run test:brands && npm run test:testimonials && npm run test:menu && npm run test:home-drop",
+    "test:browser": "node --import tsx scripts/check-browser.ts && node --import tsx scripts/check-drawings-browser.ts && npm run test:home && npm run test:paragraphs && npm run test:team && npm run test:company && npm run test:gallery && npm run test:brands && npm run test:testimonials && npm run test:menu && npm run test:home-drop && npm run test:focus",
     "check:content": "node --import tsx scripts/check-content.ts",
     "check:export": "node --import tsx scripts/check-export.ts",
+    "check:focus": "node --import tsx scripts/check-focus-products.ts",
     "manifest": "node --import tsx scripts/generate-manifest.ts",
     "test:catalogue": "node --import tsx --test scripts/catalogue.test.ts scripts/image-import.test.ts",
     "test:import": "python3 scripts/test-importer.py",
-    "check": "npm run typecheck && npm run check:content && npm run test:media && npm run test:catalogue && npm run test:import",
+    "check": "npm run typecheck && npm run check:content && npm run check:focus && npm run test:media && npm run test:catalogue && npm run test:import",
     "prebuild": "npm run check:content",
     "format": "prettier --write app components data lib scripts/*.ts next.config.ts tsconfig.json firebase.json",
     "assets:optimise": "node scripts/optimise-assets.mjs",
@@ -26,7 +27,8 @@
     "test:brands": "node --import tsx scripts/check-brand-cloud.ts",
     "test:testimonials": "node --import tsx scripts/check-testimonials.ts",
     "test:menu": "node --import tsx scripts/check-menu-hover.ts",
-    "test:home-drop": "node --import tsx scripts/check-home-drop.ts"
+    "test:home-drop": "node --import tsx scripts/check-home-drop.ts",
+    "test:focus": "node --import tsx scripts/check-focus-browser.ts"
   },
   "dependencies": {
     "motion": "12.40.0",

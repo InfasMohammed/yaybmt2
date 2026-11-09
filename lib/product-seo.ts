@@ -1,7 +1,10 @@
 import type { Product } from "../data/types";
 import { products } from "../data/products";
 import { categories } from "../data/categories";
-const baseTitle = (p: Product) => p.seo?.title || p.name;
+import { focusEntry } from "../data/focus-products";
+// Focus products (client top 20) use their search-targeted title/description first.
+const baseTitle = (p: Product) =>
+  focusEntry(p.slug)?.seo?.title || p.seo?.title || p.name;
 export function productSEO(product: Product) {
   let title = baseTitle(product);
   const category = categories
@@ -20,6 +23,7 @@ export function productSEO(product: Product) {
   )
     title += " – " + category.name;
   const description =
+    focusEntry(product.slug)?.seo?.description ||
     product.seo?.description ||
     "Enquire about " +
       product.name +

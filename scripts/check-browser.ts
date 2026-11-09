@@ -506,13 +506,14 @@ async function main() {
     const nojs = await browser.newContext({ javaScriptEnabled: false });
     const plain = await nojs.newPage();
     await plain.goto(base + "/brand/daelim/");
-    assert.equal(await plain.locator(".card").count(), 12);
+    // The catalogue grid itself (the "Top products in …" strip sits above it).
+    assert.equal(await plain.locator(".catalogue .card").count(), 12);
     await plain
       .getByRole("navigation", { name: "Catalogue pages" })
       .getByRole("link", { name: "Next", exact: true })
       .click();
-    assert.equal(await plain.locator(".card").count(), 9);
-    await plain.locator(".card a").first().click();
+    assert.equal(await plain.locator(".catalogue .card").count(), 9);
+    await plain.locator(".catalogue .card a").first().click();
     assert.ok(
       await plain
         .locator("main")

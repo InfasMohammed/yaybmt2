@@ -1,10 +1,10 @@
 {
   "scope": "Local static export; not a production crawl",
-  "pagesChecked": 406,
-  "indexableAfterLaunch": 403,
+  "pagesChecked": 407,
+  "indexableAfterLaunch": 404,
   "reviewNoindex": true,
-  "uniqueTitles": 406,
-  "uniqueDescriptions": 406,
+  "uniqueTitles": 407,
+  "uniqueDescriptions": 407,
   "descriptionWarnings": [],
   "checks": [
     "One H1 per page",
@@ -18,6 +18,51 @@
   ],
   "productSourceSEOTitles": 120,
   "productTitleAdjustments": [
+    {
+      "path": "/product/dc-701/",
+      "original": "Daelim DC 701 Toilet Flush Supplier UAE",
+      "rendered": "Daelim DC 701 Wall-Hung WC | Space-Saving Toilet System"
+    },
+    {
+      "path": "/product/fb-2060nc/",
+      "original": "Daelim FB 2060NC Faucet Supplier UAE",
+      "rendered": "Daelim FB2060NC Thermostatic Shower Mixer"
+    },
+    {
+      "path": "/product/fb-2060tkr/",
+      "original": "Daelim FB 2060TKR Faucet UAE Supplier",
+      "rendered": "Daelim FB2060TKR Thermostatic Mixer with Spout"
+    },
+    {
+      "path": "/product/s-1100pc/",
+      "original": "KOPAT S-1100PC Mortise Lever Lock Supplier UAE",
+      "rendered": "KOPAT S-1100PC Mortise Lever Lock | Marine Doors"
+    },
+    {
+      "path": "/product/fc-110cs/",
+      "original": "Daelim FC 110CS Brass Urinal Flush Valve UAE Supplier",
+      "rendered": "Daelim FC 110CS Urinal Flush Valve | Brass"
+    },
+    {
+      "path": "/product/fl-247/",
+      "original": "Daelim FL-247 Push-Open Waste Vent in UAE",
+      "rendered": "Daelim FL 247 Pop-Up Basin Waste | 1¼″ Push-Open"
+    },
+    {
+      "path": "/product/fl-3200c/",
+      "original": "Daelim FL 3200C Chrome Wash Tap Supplier UAE",
+      "rendered": "Daelim FL 3200C Wash Basin Mixer Tap | Chrome"
+    },
+    {
+      "path": "/product/5600/",
+      "original": "Shop Top-Quality COSMO CD-5600 Cylinder Mortice Lock in UAE",
+      "rendered": "COSMO CD-5600 Marine Mortice Lock | Cabin Door Lock"
+    },
+    {
+      "path": "/product/rwl220/",
+      "original": "RWL220 Royal & Co Supplier in UAE",
+      "rendered": "Royal & Co RWL220 Wall-Hung Wash Basin"
+    },
     {
       "path": "/product/check-valves/",
       "original": "Check Valves",
@@ -84,6 +129,16 @@
       "rendered": "Pipe Insulation – Plumbing Hardware"
     },
     {
+      "path": "/product/marine-fire-lock-c1-ohs-2320-rho/",
+      "original": "C1 OHS-2320 RHO Marine Fire Lock Supplier UAE",
+      "rendered": "Horse C1 OHS-2320 Marine Fire Door Lock | 304 SS"
+    },
+    {
+      "path": "/product/7000/",
+      "original": "Staco 7000 Marine-Grade Mortice Lock",
+      "rendered": "Staco 7000 Marine Mortice Lockcase | Dubai Supplier"
+    },
+    {
       "path": "/product/ppr-ball-valve/",
       "original": "PPR Ball Valve",
       "rendered": "PPR Ball Valve – PPR Pipes & Fittings"
@@ -97,6 +152,21 @@
       "path": "/product/pipe-insulation-2/",
       "original": "Pipe Insulation",
       "rendered": "Pipe Insulation – PPR Accessories"
+    },
+    {
+      "path": "/product/c1/",
+      "original": "Get C1 Marine Fireproof Door Lock for Ship in Dubai",
+      "rendered": "C1 Marine Door Lock | Fireproof Ship Cabin Lock"
+    },
+    {
+      "path": "/product/c2/",
+      "original": "Shop C2 Marine Fireproof Door Lock in Dubai",
+      "rendered": "C2 Weather-Tight Marine Door Lock | Ship Doors"
+    },
+    {
+      "path": "/product/c4/",
+      "original": "Shop Best C4 Marine Privacy Lock in Dubai",
+      "rendered": "C4 Marine Door Lock | Ship Toilet Privacy Lock"
     }
   ]
 }

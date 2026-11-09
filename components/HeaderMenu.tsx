@@ -145,6 +145,15 @@ export default function HeaderMenu({
           >
             <MenuHoverLabel>All {label.toLowerCase()}</MenuHoverLabel>
           </a>
+          {path === "/shop/" && (
+            <a
+              className="nav-top-products"
+              href="/top-products/"
+              aria-label="Top products"
+            >
+              <MenuHoverLabel>Top products</MenuHoverLabel>
+            </a>
+          )}
           {entries.map((entry) => (
             <a
               href={prefix + entry.slug + "/"}
@@ -308,6 +317,15 @@ export default function HeaderMenu({
               </>
             ) : (
               <>
+                {view === "products" && (
+                  <a
+                    href="/top-products/"
+                    aria-label="Top products"
+                    className="nav-top-products"
+                  >
+                    <MenuHoverLabel>Top products</MenuHoverLabel>
+                  </a>
+                )}
                 {(view === "products" ? categories : brands).map((entry) => (
                   <a
                     key={entry.slug}
