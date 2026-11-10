@@ -40,8 +40,8 @@ export default function HomeMotion() {
           }
           played.add(element);
           element.dataset.homeDrop = "played";
-          // Header, footer and above-the-fold hero get a plain fade-rise; blur is for content below.
-          const chrome = !!element.closest("header, footer, .hero");
+          // Header, footer, hero and the near-the-fold top products get a plain fade-rise (cheaper at load).
+          const chrome = !!element.closest("header, footer, .hero, .home-top-products");
           const animation = element.animate(
             chrome
               ? [

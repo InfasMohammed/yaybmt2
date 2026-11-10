@@ -2392,3 +2392,40 @@ header a:hover > .logo {
 .product-info > .eyebrow {
   margin-right: 8px;
 }
+
+/* Homepage: client focus products, between the brands card and the product ranges. */
+.home-top-products {
+  padding: 8px 0 96px;
+}
+.home-top-intro {
+  max-width: 520px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
+}
+.home-top-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+.home-top-grid > div {
+  display: flex;
+  min-width: 0;
+}
+.home-top-grid .card {
+  flex: 1;
+}
+@media (max-width: 1100px) {
+  .home-top-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  .home-top-products {
+    padding-bottom: 72px;
+  }
+  .home-top-grid {
+    gap: 16px;
+  }
+}

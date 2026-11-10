@@ -28,13 +28,31 @@ async function main() {
     );
     assert.equal(await nav.locator('a[href="#"]').count(), 0);
     const home = nav.getByRole("link", { name: "Home", exact: true });
+    const fill = home.locator(".menu-hover-fill");
+    // Record the browser's own transition events instead of sampling at a fixed delay,
+    // which raced the 300ms fade on a busy machine.
+    await fill.evaluate((el) => {
+      (el as HTMLElement).dataset.opacityTransition = "none";
+      el.addEventListener("transitionrun", (event) => {
+        if ((event as TransitionEvent).propertyName === "opacity")
+          (el as HTMLElement).dataset.opacityTransition = "run";
+      });
+    });
     await home.hover();
-    await page.waitForTimeout(120);
-    const mid = await home
-      .locator(".menu-hover-fill")
-      .evaluate((el) => Number(getComputedStyle(el).opacity));
-    assert.ok(mid > 0 && mid < 1, "Background fill actually animates");
-    await page.waitForTimeout(300);
+    await page.waitForFunction(
+      (el) => (el as HTMLElement).dataset.opacityTransition === "run",
+      await fill.elementHandle(),
+    );
+    assert.ok(
+      parseFloat(
+        await fill.evaluate((el) => getComputedStyle(el).transitionDuration),
+      ) > 0,
+      "Background fill actually animates",
+    );
+    await page.waitForFunction(
+      (el) => getComputedStyle(el as Element).opacity === "1",
+      await fill.elementHandle(),
+    );
     assert.equal(
       await home
         .locator(".menu-hover-label")

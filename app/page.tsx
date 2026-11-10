@@ -12,6 +12,9 @@ import { categoryImages } from "../data/category-images";
 import { industries } from "../data/industries";
 import { sourcePages } from "../data/source-pages";
 import { metadata as meta } from "../lib/site";
+import Card from "../components/Card";
+import { catalogueItem } from "../lib/catalogue-data";
+import { liveFocusProducts } from "../data/focus-products";
 
 const source = sourcePages.find((p) => p.path === "/")!;
 export const metadata = meta(
@@ -46,6 +49,8 @@ const rangeCards = categories
         : "Browse every " + c.name.toLowerCase() + " product in our catalogue.",
     };
   });
+// All of the client's live focus products, in client order (awaiting items appear once published).
+const homeTopProducts = liveFocusProducts();
 const industryCopy: Record<string, string> = {
   marine: "Marine locks, sanitary ware and ship-chandlery hardware.",
   "engineering-fabrication":
@@ -170,6 +175,35 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <section className="home-top-products" aria-labelledby="top-products-heading">
+        <div className={container}>
+          <div
+            data-home-reveal
+            className="tw:mb-10 tw:flex tw:flex-col tw:gap-6 tw:md:flex-row tw:md:items-end tw:md:justify-between"
+          >
+            <div>
+              <p className={eyebrow + " tw:mb-4"}>01 / TOP PRODUCTS</p>
+              <h2 id="top-products-heading" className={heading}>
+                Our most requested lines.
+              </h2>
+              <p className="home-top-intro">
+                Marine door locks and Daelim sanitary ware our customers ask
+                for most.
+              </p>
+            </div>
+            <a className={link} href="/top-products/">
+              View all top products <Arrow />
+            </a>
+          </div>
+          <div className="home-top-grid">
+            {homeTopProducts.map((p) => (
+              <div data-home-reveal key={p.slug}>
+                <Card product={catalogueItem(p)} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       <section className="home-ranges" aria-labelledby="ranges-heading">
         <div className={container}>
           <div
@@ -177,7 +211,7 @@ export default function Home() {
             className="tw:mb-12 tw:flex tw:flex-col tw:gap-6 tw:md:flex-row tw:md:items-end tw:md:justify-between"
           >
             <div>
-              <p className={eyebrow + " tw:mb-4"}>01 / PRODUCT RANGES</p>
+              <p className={eyebrow + " tw:mb-4"}>02 / PRODUCT RANGES</p>
               <h2 id="ranges-heading" className={heading}>
                 Every detail.
                 <br />
@@ -186,14 +220,9 @@ export default function Home() {
                 </span>
               </h2>
             </div>
-            <div className="tw:flex tw:flex-wrap tw:gap-x-8 tw:gap-y-2">
-              <a className={link} href="/top-products/">
-                View top products <Arrow />
-              </a>
-              <a className={link} href="/categories/">
-                Browse all categories <Arrow />
-              </a>
-            </div>
+            <a className={link} href="/categories/">
+              Browse all categories <Arrow />
+            </a>
           </div>
           <div className="range-grid" data-category-grid>
             {rangeCards.map((c) => (
@@ -246,7 +275,7 @@ export default function Home() {
       >
         <div className={container + " home-industries-inner"}>
           <div data-home-reveal className="home-industries-intro">
-            <p className="home-brands-eyebrow">02 / OUR EXPERTISE</p>
+            <p className="home-brands-eyebrow">03 / OUR EXPERTISE</p>
             <h2 id="industries-heading">Industries We Serve</h2>
             <p>Comprehensive Solutions for a Wide Range of Industries</p>
             <div className="home-industries-links">

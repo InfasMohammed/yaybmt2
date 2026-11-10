@@ -21,13 +21,30 @@ async function main() {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
 
-    // Homepage: no new product section; the existing category grid stays, with a hub link.
+    // Homepage: every live top product in its own section after the brands card,
+    // before the (unchanged) product ranges, plus a link to the hub.
     await page.goto(base + "/");
     assert.ok(await page.locator("[data-category-grid]").isVisible());
-    assert.equal(await page.locator(".focus-pill").count(), 0);
-    await page
-      .locator("main")
-      .getByRole("link", { name: "View top products" })
+    const topSection = page.locator(".home-top-products");
+    assert.equal(await topSection.locator(".card").count(), live.length);
+    for (const product of live)
+      assert.equal(
+        await topSection.locator(`a[href="/product/${product.slug}/"]`).count(),
+        1,
+        "Homepage lists " + product.slug,
+      );
+    const order = await page
+      .locator("main > section")
+      .evaluateAll((sections) => sections.map((s) => s.className));
+    const brandsAt = order.findIndex((c) => c.includes("tw:relative tw:z-1"));
+    const topAt = order.findIndex((c) => c.includes("home-top-products"));
+    const rangesAt = order.findIndex((c) => c.includes("home-ranges"));
+    assert.ok(
+      brandsAt < topAt && topAt < rangesAt,
+      "Top products sit after the brands card and before product ranges",
+    );
+    await topSection
+      .getByRole("link", { name: "View all top products" })
       .click();
     assert.ok(page.url().endsWith("/top-products/"));
 
@@ -96,7 +113,7 @@ async function main() {
     assert.deepEqual(errors, []);
     await page.close();
     console.log(
-      `PASS focus browser: homepage keeps categories + hub link, /top-products/ lists ${live.length} live products, header/footer links, focus page badge/key facts/SEO title/related, clean specs and brand strip.`,
+      `PASS focus browser: homepage lists every live top product after the brands card, /top-products/ lists ${live.length} live products, header/footer links, focus page badge/key facts/SEO title/related, clean specs and brand strip.`,
     );
   } finally {
     await browser.close();
